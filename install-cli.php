@@ -18,7 +18,15 @@ require_once CLINICALL_ROOT . '/core/Database.php';
 $config_file = CLINICALL_ROOT . '/config.php';
 $current_cfg = file_exists($config_file) ? require $config_file : ['app' => ['installed' => false]];
 
-if (($current_cfg['app']['installed'] ?? false) === true) {
+$schemaReady = false;
+try {
+    Database::connect($current_cfg['db'] ?? []);
+    $schemaReady = (bool) Database::val("SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'users'");
+} catch (Throwable $e) {
+    $schemaReady = false;
+}
+
+if (($current_cfg['app']['installed'] ?? false) === true && $schemaReady) {
     fwrite(STDOUT, "ClinicAll is already installed.\n");
     exit(0);
 }
