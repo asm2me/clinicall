@@ -1,10 +1,8 @@
-
 <?php if (Auth::check()): ?>
-        </main>
-    </div>
+    </main>
 </div>
 
-<footer class="footer-bar ample-footer">
+<footer class="footer-bar classic-footer">
     <div class="container-fluid px-4">
         <small class="text-muted">
             &copy; <?php echo date('Y'); ?>
@@ -27,9 +25,7 @@
 </footer>
 <?php endif; ?>
 
-<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- ClinicAll JS -->
 <script src="<?php echo e($cfg['app']['url']); ?>/assets/js/app.js"></script>
 
 <?php if (isset($page_scripts)): ?>
