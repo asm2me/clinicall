@@ -30,9 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_action'])) {
         $uid = clean_uuid($_POST['user_id'] ?? '');
         if ($uid && Auth::impersonateUser($uid)) {
             flash('Logged in as selected user.');
-        } else {
-            flash('Unable to log in as that user.', 'danger');
+            redirect('?page=dashboard');
         }
+
+        flash('Unable to log in as that user.', 'danger');
         redirect($_SERVER['HTTP_REFERER'] ?? '?page=dashboard');
     }
 
@@ -52,6 +53,7 @@ $routes = [
     // Auth
     'login'              => 'views/login.php',
     'logout'             => null,  // handled inline below
+    'change_password'    => 'views/change_password.php',
 
     // Main
     'dashboard'          => 'views/dashboard.php',

@@ -170,8 +170,19 @@
                 </li>
                 <?php endif; ?>
 
+                <li class="nav-item d-none d-lg-flex align-items-center me-2">
+                    <a class="btn btn-sm btn-light" href="?page=change_password">
+                        <i class="fa fa-key me-1"></i>Change Password
+                    </a>
+                </li>
+                <li class="nav-item d-none d-lg-flex align-items-center me-2">
+                    <a class="btn btn-sm btn-danger" href="?page=logout">
+                        <i class="fa fa-sign-out-alt me-1"></i>Logout
+                    </a>
+                </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle nav-user-trigger" href="#" data-bs-toggle="dropdown">
                         <i class="fa fa-user-circle me-1"></i><?php echo e($user['name']); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -181,6 +192,11 @@
                         <li>
                             <a class="dropdown-item" href="?page=dashboard">
                                 <i class="fa fa-gauge me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="?page=change_password">
+                                <i class="fa fa-key me-2"></i>Change Password
                             </a>
                         </li>
                         <li>
