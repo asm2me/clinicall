@@ -4,6 +4,69 @@
 
 'use strict';
 
+var ClinicAllTheme = (function () {
+    var STORAGE_KEY = 'clinicall-theme';
+    var DEFAULT_THEME = 'classic';
+    var THEMES = ['classic', 'midnight'];
+
+    function getStoredTheme() {
+        try {
+            var stored = localStorage.getItem(STORAGE_KEY);
+            return THEMES.indexOf(stored) !== -1 ? stored : DEFAULT_THEME;
+        } catch (e) {
+            return DEFAULT_THEME;
+        }
+    }
+
+    function applyTheme(theme) {
+        var safeTheme = THEMES.indexOf(theme) !== -1 ? theme : DEFAULT_THEME;
+        document.documentElement.setAttribute('data-theme', safeTheme);
+
+        document.querySelectorAll('[data-theme-label]').forEach(function (label) {
+            label.textContent = safeTheme === 'midnight' ? 'Midnight' : 'Classic';
+        });
+
+        document.querySelectorAll('[data-theme-icon]').forEach(function (icon) {
+            icon.classList.remove('fa-moon', 'fa-sun');
+            icon.classList.add(safeTheme === 'midnight' ? 'fa-sun' : 'fa-moon');
+        });
+
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (toggle) {
+            toggle.setAttribute('aria-pressed', safeTheme === 'midnight' ? 'true' : 'false');
+            toggle.setAttribute('title', safeTheme === 'midnight' ? 'Switch to Classic theme' : 'Switch to Midnight theme');
+        });
+
+        try {
+            localStorage.setItem(STORAGE_KEY, safeTheme);
+        } catch (e) {
+            // Ignore storage errors
+        }
+    }
+
+    function toggleTheme() {
+        applyTheme(getStoredTheme() === 'midnight' ? 'classic' : 'midnight');
+    }
+
+    function init() {
+        applyTheme(getStoredTheme());
+
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (toggle) {
+            toggle.addEventListener('click', function () {
+                toggleTheme();
+            });
+        });
+    }
+
+    return {
+        init: init,
+        applyTheme: applyTheme
+    };
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+    ClinicAllTheme.init();
+});
+
 // ── Auto-dismiss flash alerts ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.alert.alert-success').forEach(function (el) {

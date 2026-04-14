@@ -40,13 +40,10 @@ if (is_post()) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="<?php echo e($cfg['app']['url']); ?>/assets/css/app.css" rel="stylesheet">
-    <style>
-        body { background: linear-gradient(135deg, #1a4b8c 0%, #0e6efd 100%); min-height: 100vh; }
-        .login-box { max-width: 420px; }
-    </style>
 </head>
-<body class="d-flex align-items-center justify-content-center min-vh-100">
-<div class="login-box w-100 mx-auto px-3">
+<body class="theme-auth d-flex align-items-center justify-content-center min-vh-100">
+<div class="login-shell w-100 d-flex align-items-center justify-content-center px-3">
+<div class="login-box w-100 mx-auto">
     <div class="text-center mb-4">
         <i class="fa fa-hospital fa-3x text-white mb-2"></i>
         <h2 class="text-white fw-bold"><?php echo e($cfg['app']['name']); ?></h2>
@@ -93,6 +90,8 @@ if (is_post()) {
         <?php echo e($cfg['app']['name']); ?> v<?php echo CLINICALL_VERSION; ?>
     </p>
 </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo e($cfg['app']['url']); ?>/assets/js/app.js"></script>
 </body>
 </html>

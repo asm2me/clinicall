@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="<?php echo e($cfg['app']['url']); ?>/assets/css/app.css" rel="stylesheet">
 </head>
-<body class="clinicall-admin theme-classic">
+<body class="clinicall-admin">
 
 <?php $user = Auth::user(); $tenant = Auth::tenant(); ?>
 
@@ -33,6 +33,11 @@
         </div>
 
         <div class="classic-topbar-actions">
+            <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+                <i class="fa fa-moon" data-theme-icon></i>
+                <span class="theme-toggle-label" data-theme-label>Classic</span>
+            </button>
+
             <?php if (Auth::isImpersonating()): ?>
             <form method="post" class="m-0">
                 <?php echo csrf_field(); ?>
