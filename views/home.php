@@ -60,18 +60,61 @@ $steps = [
     $translations('steps.three', 'Track appointments from one dashboard'),
 ];
 
-$planBlocks = [
+$socialProof = [
+    $translations('proof.one', 'Trusted by growing clinic teams'),
+    $translations('proof.two', 'Multi-language ready'),
+    $translations('proof.three', 'Designed for daily operations'),
+];
+
+$plans = [
     [
-        'title' => $translations('value.starter', 'Starter workflow'),
-        'text' => $translations('value.starter_text', 'A simple way to launch public booking and internal scheduling.'),
+        'name' => $translations('pricing.starter', 'Starter'),
+        'price' => $translations('pricing.starter_price', 'Free'),
+        'period' => $translations('pricing.per_month', 'per month'),
+        'description' => $translations('pricing.starter_desc', 'A simple way to launch booking and internal scheduling.'),
+        'items' => [
+            $translations('pricing.starter_item_1', 'Public booking setup'),
+            $translations('pricing.starter_item_2', 'Single clinic workspace'),
+            $translations('pricing.starter_item_3', 'Core dashboard tools'),
+        ],
+        'featured' => false,
     ],
     [
-        'title' => $translations('value.growth', 'Growth ready'),
-        'text' => $translations('value.growth_text', 'Add more clinics, teams, and appointments as your operations expand.'),
+        'name' => $translations('pricing.growth', 'Growth'),
+        'price' => $translations('pricing.growth_price', 'Popular'),
+        'period' => $translations('pricing.growth_period', 'for scaling clinics'),
+        'description' => $translations('pricing.growth_desc', 'Add more teams, locations, and automated follow-up with confidence.'),
+        'items' => [
+            $translations('pricing.growth_item_1', 'Multi-clinic operations'),
+            $translations('pricing.growth_item_2', 'Team coordination tools'),
+            $translations('pricing.growth_item_3', 'Enhanced visibility and control'),
+        ],
+        'featured' => true,
     ],
     [
-        'title' => $translations('value.enterprise', 'Multi-location control'),
-        'text' => $translations('value.enterprise_text', 'Built for clinic groups that need a consistent process across branches.'),
+        'name' => $translations('pricing.enterprise', 'Enterprise'),
+        'price' => $translations('pricing.enterprise_price', 'Custom'),
+        'period' => $translations('pricing.enterprise_period', 'for larger groups'),
+        'description' => $translations('pricing.enterprise_desc', 'Built for clinic networks that need consistent control across branches.'),
+        'items' => [
+            $translations('pricing.enterprise_item_1', 'Branch-level structure'),
+            $translations('pricing.enterprise_item_2', 'Advanced role access'),
+            $translations('pricing.enterprise_item_3', 'Priority onboarding support'),
+        ],
+        'featured' => false,
+    ],
+];
+
+$testimonials = [
+    [
+        'quote' => $translations('testimonial.one_quote', 'ClinicAll made our daily schedule easier to manage and helped our team stay aligned.'),
+        'name' => $translations('testimonial.one_name', 'Operations Lead'),
+        'role' => $translations('testimonial.one_role', 'Multi-clinic practice'),
+    ],
+    [
+        'quote' => $translations('testimonial.two_quote', 'The multilingual experience gives patients a smoother first impression from the start.'),
+        'name' => $translations('testimonial.two_name', 'Front Desk Manager'),
+        'role' => $translations('testimonial.two_role', 'Patient services'),
     ],
 ];
 ?>
@@ -118,10 +161,14 @@ $planBlocks = [
     </div>
 </div>
 
-<header class="marketing-hero">
-    <div class="container py-5">
+<header class="marketing-hero position-relative overflow-hidden">
+    <div class="marketing-glow marketing-glow-1"></div>
+    <div class="marketing-glow marketing-glow-2"></div>
+    <div class="marketing-orb marketing-orb-1"></div>
+    <div class="marketing-orb marketing-orb-2"></div>
+    <div class="container position-relative py-5">
         <div class="row align-items-center g-4">
-            <div class="col-lg-6">
+            <div class="col-lg-6 reveal-on-scroll">
                 <span class="badge rounded-pill text-bg-light mb-3"><?php echo e($translations('hero.eyebrow', 'Clinic operations, simplified')); ?></span>
                 <h1 class="display-5 fw-bold mb-3"><?php echo e($translations('hero.title', 'A modern booking experience for clinics and patients')); ?></h1>
                 <p class="lead text-body-secondary mb-4"><?php echo e($translations('hero.subtitle', 'ClinicAll helps your team manage appointments, doctors, clinics, and daily operations from one clear place.')); ?></p>
@@ -132,6 +179,17 @@ $planBlocks = [
                     <a href="#features" class="btn btn-outline-secondary btn-lg">
                         <?php echo e($translations('hero.secondary_cta', 'Explore features')); ?>
                     </a>
+                </div>
+                <div class="marketing-trust row row-cols-1 row-cols-sm-3 g-3 mt-4">
+                    <?php foreach ($socialProof as $proof): ?>
+                        <div class="col">
+                            <div class="card h-100 border-0 shadow-sm marketing-trust-card">
+                                <div class="card-body p-3">
+                                    <div class="small fw-semibold"><?php echo e($proof); ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="marketing-stats mt-4 row g-3">
                     <div class="col-sm-4">
@@ -160,10 +218,16 @@ $planBlocks = [
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="card border-0 shadow-lg">
+            <div class="col-lg-6 reveal-on-scroll">
+                <div class="marketing-showcase card border-0 shadow-lg">
                     <div class="card-body p-4 p-lg-5">
-                        <h2 class="marketing-section-title h4 mb-3"><?php echo e($translations('hero.panel_title', 'Designed for busy clinic teams')); ?></h2>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div>
+                                <div class="small text-body-secondary"><?php echo e($translations('hero.panel_kicker', 'Live clinic overview')); ?></div>
+                                <h2 class="marketing-section-title h4 mb-0"><?php echo e($translations('hero.panel_title', 'Designed for busy clinic teams')); ?></h2>
+                            </div>
+                            <span class="badge rounded-pill text-bg-primary"><?php echo e($translations('hero.panel_badge', 'Ready')); ?></span>
+                        </div>
                         <p class="text-body-secondary mb-4"><?php echo e($translations('hero.panel_text', 'Reduce manual follow-up, keep schedules visible, and provide patients with a smoother first impression.')); ?></p>
                         <div class="list-group list-group-flush">
                             <div class="list-group-item px-0 d-flex align-items-start gap-3">
@@ -197,14 +261,14 @@ $planBlocks = [
 
 <section id="features" class="marketing-features py-5">
     <div class="container">
-        <div class="marketing-section-title mb-4">
+        <div class="marketing-section-title mb-4 reveal-on-scroll">
             <h2 class="h3 mb-2"><?php echo e($translations('features.title', 'Feature highlights')); ?></h2>
             <p class="text-body-secondary mb-0"><?php echo e($translations('features.subtitle', 'Everything you need to present, book, and operate with confidence.')); ?></p>
         </div>
 
         <div class="row g-4">
             <?php foreach ($features as $feature): ?>
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4 reveal-on-scroll">
                 <article class="card h-100 border-0 shadow-sm marketing-feature-card">
                     <div class="card-body p-4">
                         <div class="feature-icon mb-3"><i class="fa <?php echo e($feature['icon']); ?>"></i></div>
@@ -220,14 +284,14 @@ $planBlocks = [
 
 <section class="marketing-section py-5 bg-body-tertiary">
     <div class="container">
-        <div class="marketing-section-title mb-4">
+        <div class="marketing-section-title mb-4 reveal-on-scroll">
             <h2 class="h3 mb-2"><?php echo e($translations('workflow.title', 'How it works')); ?></h2>
             <p class="text-body-secondary mb-0"><?php echo e($translations('workflow.subtitle', 'A simple setup path for a smoother launch.')); ?></p>
         </div>
 
         <div class="row g-4">
             <?php foreach ($steps as $index => $step): ?>
-            <div class="col-md-4">
+            <div class="col-md-4 reveal-on-scroll">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="badge text-bg-primary rounded-pill mb-3"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></div>
@@ -243,18 +307,34 @@ $planBlocks = [
 
 <section class="marketing-section py-5">
     <div class="container">
-        <div class="marketing-section-title mb-4">
+        <div class="marketing-section-title mb-4 reveal-on-scroll">
             <h2 class="h3 mb-2"><?php echo e($translations('value.title', 'Value that grows with your clinic')); ?></h2>
             <p class="text-body-secondary mb-0"><?php echo e($translations('value.subtitle', 'Flexible enough for a single clinic and ready for multi-location teams.')); ?></p>
         </div>
 
         <div class="row g-4">
-            <?php foreach ($planBlocks as $plan): ?>
-            <div class="col-lg-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <h3 class="h5 mb-3"><?php echo e($plan['title']); ?></h3>
-                        <p class="text-body-secondary mb-0"><?php echo e($plan['text']); ?></p>
+            <?php foreach ($plans as $plan): ?>
+            <div class="col-lg-4 reveal-on-scroll">
+                <div class="card h-100 border-0 shadow-sm marketing-pricing <?php echo $plan['featured'] ? 'marketing-price-card border border-primary' : 'marketing-price-card'; ?>">
+                    <div class="card-body p-4 p-lg-5">
+                        <?php if ($plan['featured']): ?>
+                            <div class="badge text-bg-primary rounded-pill mb-3"><?php echo e($translations('pricing.featured', 'Most chosen')); ?></div>
+                        <?php endif; ?>
+                        <h3 class="h4 mb-2"><?php echo e($plan['name']); ?></h3>
+                        <div class="display-6 fw-bold mb-1"><?php echo e($plan['price']); ?></div>
+                        <div class="text-body-secondary mb-3"><?php echo e($plan['period']); ?></div>
+                        <p class="text-body-secondary mb-4"><?php echo e($plan['description']); ?></p>
+                        <ul class="list-unstyled mb-4">
+                            <?php foreach ($plan['items'] as $item): ?>
+                                <li class="d-flex gap-2 mb-2">
+                                    <i class="fa fa-check text-success mt-1"></i>
+                                    <span><?php echo e($item); ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <a href="<?php echo e($loginUrl); ?>" class="btn <?php echo $plan['featured'] ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
+                            <?php echo e($translations('pricing.cta', 'Choose plan')); ?>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -265,8 +345,27 @@ $planBlocks = [
 
 <section class="marketing-section py-5 bg-body-tertiary">
     <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <?php foreach ($testimonials as $testimonial): ?>
+            <div class="col-lg-6 reveal-on-scroll">
+                <article class="card h-100 border-0 shadow-sm marketing-testimonial">
+                    <div class="card-body p-4 p-lg-5">
+                        <i class="fa fa-quote-left text-primary fs-3 mb-3"></i>
+                        <p class="fs-5 mb-4"><?php echo e($testimonial['quote']); ?></p>
+                        <div class="fw-semibold"><?php echo e($testimonial['name']); ?></div>
+                        <div class="text-body-secondary small"><?php echo e($testimonial['role']); ?></div>
+                    </div>
+                </article>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="marketing-section py-5">
+    <div class="container">
         <div class="row align-items-center g-4">
-            <div class="col-lg-7">
+            <div class="col-lg-7 reveal-on-scroll">
                 <div class="marketing-section-title mb-3">
                     <h2 class="h3 mb-2"><?php echo e($translations('i18n.title', 'Built for multilingual clinics')); ?></h2>
                     <p class="text-body-secondary mb-0"><?php echo e($translations('i18n.subtitle', 'Make the public experience easier to use for patients and staff in the language they prefer.')); ?></p>
@@ -286,8 +385,8 @@ $planBlocks = [
                     </li>
                 </ul>
             </div>
-            <div class="col-lg-5">
-                <div class="card border-0 shadow-sm">
+            <div class="col-lg-5 reveal-on-scroll">
+                <div class="card border-0 shadow-sm marketing-showcase">
                     <div class="card-body p-4">
                         <div class="small text-body-secondary mb-2"><?php echo e($translations('language.preview', 'Language preview')); ?></div>
                         <div class="d-flex flex-wrap gap-2">
@@ -308,7 +407,7 @@ $planBlocks = [
 
 <section class="marketing-cta py-5">
     <div class="container">
-        <div class="card border-0 shadow-lg">
+        <div class="card border-0 shadow-lg reveal-on-scroll">
             <div class="card-body p-4 p-lg-5 text-center">
                 <h2 class="h3 mb-3"><?php echo e($translations('cta.title', 'Ready to streamline your clinic?')); ?></h2>
                 <p class="text-body-secondary mb-4"><?php echo e($translations('cta.subtitle', 'Sign in to manage appointments, or switch languages to see the public experience in your preferred locale.')); ?></p>

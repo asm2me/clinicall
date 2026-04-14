@@ -99,6 +99,54 @@ var ClinicAllTheme = (function () {
         });
     }
 
+    function initProgressiveLoad() {
+        var page = document.querySelector('.marketing-page');
+        if (!page) {
+            return;
+        }
+
+        page.classList.add('progressive-load');
+
+        var skeletons = document.querySelectorAll('.progressive-load-skeleton');
+        skeletons.forEach(function (el, index) {
+            window.setTimeout(function () {
+                el.classList.add('progressive-load-hidden');
+            }, 220 + index * 120);
+        });
+
+        window.setTimeout(function () {
+            page.classList.add('progressive-load-ready');
+        }, 260);
+
+        var reveals = document.querySelectorAll('.reveal-on-scroll');
+        if (!reveals.length) {
+            return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            reveals.forEach(function (el) {
+                el.classList.add('is-visible');
+            });
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.14,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        reveals.forEach(function (el) {
+            observer.observe(el);
+        });
+    }
+
     function init() {
         applyTheme(getStoredTheme());
 
@@ -109,6 +157,7 @@ var ClinicAllTheme = (function () {
         });
 
         initSidebarToggle();
+        initProgressiveLoad();
     }
 
     return {
