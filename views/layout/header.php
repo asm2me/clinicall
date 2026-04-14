@@ -12,150 +12,128 @@
     <!-- ClinicAll custom CSS -->
     <link href="<?php echo e($cfg['app']['url']); ?>/assets/css/app.css" rel="stylesheet">
 </head>
-<body class="clinicall-admin">
+<body class="clinicall-admin theme-ample">
 
 <?php $user = Auth::user(); $tenant = Auth::tenant(); ?>
 
-<!-- Top Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="?page=dashboard">
-            <i class="fa fa-hospital me-2"></i><?php echo e($cfg['app']['name']); ?>
-        </a>
+<?php if (Auth::check()): ?>
+<div class="ample-shell">
+    <aside class="ample-sidebar">
+        <div class="ample-brand">
+            <a class="navbar-brand fw-bold m-0" href="?page=dashboard">
+                <i class="fa fa-hospital me-2"></i><?php echo e($cfg['app']['name']); ?>
+            </a>
+        </div>
 
-        <?php if (Auth::check()): ?>
-        <!-- Tenant badge -->
-        <span class="badge bg-white text-primary ms-2 d-none d-md-inline">
-            <?php if (Auth::isSuperAdmin() && $tenant): ?>
-                <i class="fa fa-building me-1"></i><?php echo e($tenant['name']); ?>
-            <?php elseif ($tenant): ?>
-                <i class="fa fa-building me-1"></i><?php echo e($tenant['name']); ?>
-            <?php else: ?>
-                <i class="fa fa-star me-1"></i>Superadmin
-            <?php endif; ?>
-        </span>
-        <?php endif; ?>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <?php if (Auth::check()): ?>
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($page??'')==='dashboard' ? 'active' : ''; ?>"
-                       href="?page=dashboard"><i class="fa fa-gauge me-1"></i>Dashboard</a>
+        <div class="ample-sidebar-section">
+            <div class="ample-sidebar-label">Navigation</div>
+            <ul class="ample-nav">
+                <li>
+                    <a class="<?php echo ($page??'')==='dashboard' ? 'active' : ''; ?>" href="?page=dashboard">
+                        <i class="fa fa-gauge"></i><span>Dashboard</span>
+                    </a>
                 </li>
 
                 <?php if (Auth::can('clinic.view')): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php echo in_array($page??'', ['clinics','clinic_edit','doctors','doctor_edit']) ? 'active' : ''; ?>"
-                       href="#" data-bs-toggle="dropdown">
-                        <i class="fa fa-hospital me-1"></i>Clinics
+                <li>
+                    <a class="<?php echo in_array($page??'', ['clinics','clinic_edit']) ? 'active' : ''; ?>" href="?page=clinics">
+                        <i class="fa fa-hospital"></i><span>Clinics</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="?page=clinics">
-                            <i class="fa fa-list me-2"></i>All Clinics</a></li>
-                        <?php if (Auth::can('clinic.create')): ?>
-                        <li><a class="dropdown-item" href="?page=clinic_edit">
-                            <i class="fa fa-plus me-2"></i>Add Clinic</a></li>
-                        <?php endif; ?>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="?page=doctors">
-                            <i class="fa fa-user-md me-2"></i>All Doctors</a></li>
-                        <?php if (Auth::can('doctor.create')): ?>
-                        <li><a class="dropdown-item" href="?page=doctor_edit">
-                            <i class="fa fa-plus me-2"></i>Add Doctor</a></li>
-                        <?php endif; ?>
-                    </ul>
+                </li>
+                <?php endif; ?>
+
+                <?php if (Auth::can('doctor.view')): ?>
+                <li>
+                    <a class="<?php echo in_array($page??'', ['doctors','doctor_edit']) ? 'active' : ''; ?>" href="?page=doctors">
+                        <i class="fa fa-user-md"></i><span>Doctors</span>
+                    </a>
                 </li>
                 <?php endif; ?>
 
                 <?php if (Auth::can('schedule.view')): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php echo in_array($page??'', ['schedules','schedule_edit','exceptions']) ? 'active' : ''; ?>"
-                       href="#" data-bs-toggle="dropdown">
-                        <i class="fa fa-calendar-week me-1"></i>Schedules
+                <li>
+                    <a class="<?php echo in_array($page??'', ['schedules','schedule_edit','exceptions']) ? 'active' : ''; ?>" href="?page=schedules">
+                        <i class="fa fa-calendar-week"></i><span>Schedules</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="?page=schedules">
-                            <i class="fa fa-clock me-2"></i>Weekly Schedules</a></li>
-                        <li><a class="dropdown-item" href="?page=exceptions">
-                            <i class="fa fa-calendar-xmark me-2"></i>Exceptions / Days Off</a></li>
-                    </ul>
                 </li>
                 <?php endif; ?>
 
                 <?php if (Auth::can('appointment.view')): ?>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo in_array($page??'', ['appointments','appointment_edit']) ? 'active' : ''; ?>"
-                       href="?page=appointments">
-                        <i class="fa fa-calendar-check me-1"></i>Appointments
+                <li>
+                    <a class="<?php echo in_array($page??'', ['appointments','appointment_edit']) ? 'active' : ''; ?>" href="?page=appointments">
+                        <i class="fa fa-calendar-check"></i><span>Appointments</span>
                     </a>
                 </li>
                 <?php endif; ?>
 
                 <?php if (Auth::isSuperAdmin()): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php echo in_array($page??'', ['admin_tenants','admin_tenant_edit','admin_users','admin_user_edit']) ? 'active' : ''; ?>"
-                       href="#" data-bs-toggle="dropdown">
-                        <i class="fa fa-cog me-1"></i>Admin
+                <li>
+                    <a class="<?php echo in_array($page??'', ['admin_tenants']) ? 'active' : ''; ?>" href="?page=admin_tenants">
+                        <i class="fa fa-building"></i><span>Tenants</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="?page=admin_tenants">
-                            <i class="fa fa-building me-2"></i>Tenants</a></li>
-                        <li><a class="dropdown-item" href="?page=admin_users">
-                            <i class="fa fa-users me-2"></i>All Users</a></li>
-                    </ul>
+                </li>
+                <li>
+                    <a class="<?php echo in_array($page??'', ['admin_users','admin_user_edit']) ? 'active' : ''; ?>" href="?page=admin_users">
+                        <i class="fa fa-users"></i><span>Users</span>
+                    </a>
                 </li>
                 <?php elseif (Auth::can('user.view')): ?>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo in_array($page??'', ['admin_users','admin_user_edit']) ? 'active' : ''; ?>"
-                       href="?page=admin_users">
-                        <i class="fa fa-users me-1"></i>Users
+                <li>
+                    <a class="<?php echo in_array($page??'', ['admin_users','admin_user_edit']) ? 'active' : ''; ?>" href="?page=admin_users">
+                        <i class="fa fa-users"></i><span>Users</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+
+                <?php if ($tenant): ?>
+                <li>
+                    <a href="booking.php?t=<?php echo e($tenant['slug']); ?>" target="_blank">
+                        <i class="fa fa-arrow-up-right-from-square"></i><span>Booking Page</span>
                     </a>
                 </li>
                 <?php endif; ?>
             </ul>
+        </div>
 
-            <!-- Right side -->
-            <ul class="navbar-nav ms-auto">
+        <div class="ample-sidebar-promo">
+            <a href="?page=change_password" class="btn btn-danger w-100 mb-2">
+                <i class="fa fa-key me-1"></i>Change Password
+            </a>
+            <a href="?page=logout" class="btn btn-outline-secondary w-100">
+                <i class="fa fa-sign-out-alt me-1"></i>Logout
+            </a>
+        </div>
+    </aside>
+
+    <div class="ample-main">
+        <nav class="ample-topbar">
+            <div class="ample-topbar-left">
+                <h1 class="ample-page-title"><?php echo e($page_title ?? 'Dashboard'); ?></h1>
+                <div class="ample-breadcrumb">Dashboard</div>
+            </div>
+
+            <div class="ample-topbar-right">
                 <?php if (Auth::isImpersonating()): ?>
-                <li class="nav-item d-flex align-items-center me-2">
-                    <span class="badge bg-warning text-dark">Impersonating</span>
-                </li>
-                <li class="nav-item">
-                    <form method="post" class="d-inline-block me-2">
-                        <?php echo csrf_field(); ?>
-                        <input type="hidden" name="_action" value="stop_impersonation">
-                        <button type="submit" class="btn btn-sm btn-light">
-                            <i class="fa fa-rotate-left me-1"></i>Back to Admin
-                        </button>
-                    </form>
-                </li>
-                <?php endif; ?>
-                <!-- Booking link -->
-                <?php if ($tenant): ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="booking.php?t=<?php echo e($tenant['slug']); ?>" target="_blank">
-                        <i class="fa fa-external-link me-1"></i>Booking Page
-                    </a>
-                </li>
+                <form method="post" class="d-inline-block">
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="_action" value="stop_impersonation">
+                    <button type="submit" class="btn btn-sm btn-warning">
+                        <i class="fa fa-rotate-left me-1"></i>Back to Admin
+                    </button>
+                </form>
                 <?php endif; ?>
 
-                <!-- Superadmin: switch tenant -->
                 <?php if (Auth::isSuperAdmin()): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         <i class="fa fa-exchange-alt me-1"></i>Switch Tenant
-                    </a>
+                    </button>
                     <ul class="dropdown-menu dropdown-menu-end" style="max-height:300px;overflow-y:auto;">
                         <?php
                         $all_tenants = Database::all("SELECT id, name, slug FROM tenants WHERE enabled = " . Database::bool(true) . " ORDER BY name");
                         foreach ($all_tenants as $t): ?>
                         <li>
-                            <form method="post" style="margin:0;">
+                            <form method="post" class="m-0">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="_action" value="switch_tenant">
                                 <input type="hidden" name="tenant_id" value="<?php echo e($t['id']); ?>">
@@ -167,52 +145,54 @@
                         </li>
                         <?php endforeach; ?>
                     </ul>
-                </li>
+                </div>
                 <?php endif; ?>
 
-                <li class="nav-item d-none d-lg-flex align-items-center me-2">
-                    <a class="btn btn-sm btn-light" href="?page=change_password">
-                        <i class="fa fa-key me-1"></i>Change Password
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-flex align-items-center me-2">
-                    <a class="btn btn-sm btn-danger" href="?page=logout">
-                        <i class="fa fa-sign-out-alt me-1"></i>Logout
-                    </a>
-                </li>
+                <div class="ample-search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-user-trigger" href="#" data-bs-toggle="dropdown">
-                        <i class="fa fa-user-circle me-1"></i><?php echo e($user['name']); ?>
+                <?php if (Auth::check()): ?>
+                <span class="badge bg-white text-primary d-none d-md-inline">
+                    <?php if (Auth::isSuperAdmin() && $tenant): ?>
+                        <i class="fa fa-building me-1"></i><?php echo e($tenant['name']); ?>
+                    <?php elseif ($tenant): ?>
+                        <i class="fa fa-building me-1"></i><?php echo e($tenant['name']); ?>
+                    <?php else: ?>
+                        <i class="fa fa-star me-1"></i>Superadmin
+                    <?php endif; ?>
+                </span>
+                <?php endif; ?>
+
+                <div class="dropdown">
+                    <a class="ample-user" href="#" data-bs-toggle="dropdown">
+                        <span class="ample-user-avatar"><i class="fa fa-user"></i></span>
+                        <span class="ample-user-name"><?php echo e($user['name']); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><span class="dropdown-item-text text-muted small"><?php echo e($user['email']); ?></span></li>
                         <li><span class="dropdown-item-text text-muted small">Role: <?php echo ucfirst($user['role']); ?></span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="?page=dashboard">
-                                <i class="fa fa-gauge me-2"></i>Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="?page=change_password">
-                                <i class="fa fa-key me-2"></i>Change Password
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="?page=logout">
-                                <i class="fa fa-sign-out-alt me-2"></i>Logout
-                            </a>
-                        </li>
+                        <li><a class="dropdown-item" href="?page=dashboard"><i class="fa fa-gauge me-2"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item" href="?page=change_password"><i class="fa fa-key me-2"></i>Change Password</a></li>
+                        <li><a class="dropdown-item text-danger" href="?page=logout"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
-                </li>
-            </ul>
-        </div>
-        <?php endif; ?>
+                </div>
+            </div>
+        </nav>
+
+        <main class="ample-content">
+            <?php echo flash_html(); ?>
+<?php else: ?>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="?page=dashboard">
+            <i class="fa fa-hospital me-2"></i><?php echo e($cfg['app']['name']); ?>
+        </a>
     </div>
 </nav>
 
-<!-- Main content wrapper -->
 <div class="container-fluid py-4 px-4">
-
     <?php echo flash_html(); ?>
+<?php endif; ?>
