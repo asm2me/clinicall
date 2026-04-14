@@ -1,403 +1,446 @@
 <?php
+$translations = $translations ?? function (string $key, string $default = ''): string {
+    return $default;
+};
+
 $locale = $locale ?? 'en';
-$dir = $dir ?? (($locale === 'ar') ? 'rtl' : 'ltr');
+$dir = $dir ?? 'ltr';
 $t = $t ?? [];
+$cfg = $cfg ?? [];
 
-$appName = $cfg['app']['name'] ?? 'ClinicAll';
-$appUrl = rtrim($cfg['app']['url'] ?? '', '/');
-$loginUrl = '?page=login';
-if (isset($_GET['lang']) && $_GET['lang'] !== '') {
-    $loginUrl .= '&lang=' . urlencode((string) $_GET['lang']);
-}
+$appName = $cfg['app_name'] ?? 'ClinicAll';
+$langLabel = $t['lang_label'] ?? 'Language';
+$loginLabel = $t['login'] ?? 'Login';
+$contactPhone = $cfg['support_phone'] ?? ($t['support_phone'] ?? '+1 (555) 020-2024');
+$contactEmail = $cfg['support_email'] ?? ($t['support_email'] ?? 'support@clinicall.local');
+$primaryUrl = $cfg['signup_url'] ?? '#register';
 
-$locales = [
+$topLanguages = [
     'en' => 'English',
     'ar' => 'العربية',
     'fr' => 'Français',
     'de' => 'Deutsch',
 ];
 
-$translations = function (string $key, string $fallback = '') use ($t): string {
-    return isset($t[$key]) && $t[$key] !== '' ? (string) $t[$key] : $fallback;
-};
+$heroStats = [
+    ['value' => '24/7', 'label' => $translations('home_stat_247', 'support and coordination')],
+    ['value' => '99.9%', 'label' => $translations('home_stat_uptime', 'platform uptime target')],
+    ['value' => '40+', 'label' => $translations('home_stat_integrations', 'ready integrations')],
+    ['value' => '120k', 'label' => $translations('home_stat_users', 'patient journeys supported')],
+];
+
+$logos = [
+    $translations('home_trust_logo_1', 'Hospitals'),
+    $translations('home_trust_logo_2', 'Clinics'),
+    $translations('home_trust_logo_3', 'Labs'),
+    $translations('home_trust_logo_4', 'Care Teams'),
+    $translations('home_trust_logo_5', 'Pharmacies'),
+];
 
 $features = [
     [
-        'icon' => 'fa-calendar-check',
-        'title' => $translations('features.booking', 'Smart booking'),
-        'text' => $translations('features.booking_text', 'Let patients reserve appointments with clear availability and less back-and-forth.'),
+        'icon' => 'fa-solid fa-shield-heart',
+        'title' => $translations('home_feature_1_title', 'Patient-first workflows'),
+        'text' => $translations('home_feature_1_text', 'Coordinate appointments, reminders, and follow-ups in one secure clinical hub.'),
     ],
     [
-        'icon' => 'fa-user-doctor',
-        'title' => $translations('features.doctors', 'Doctor management'),
-        'text' => $translations('features.doctors_text', 'Organize doctors, schedules, and specialties in a single operational view.'),
+        'icon' => 'fa-solid fa-chart-line',
+        'title' => $translations('home_feature_2_title', 'Operational visibility'),
+        'text' => $translations('home_feature_2_text', 'Monitor queues, team activity, and service performance with clear dashboards.'),
     ],
     [
-        'icon' => 'fa-building',
-        'title' => $translations('features.clinics', 'Clinic and branch control'),
-        'text' => $translations('features.clinics_text', 'Keep clinics, locations, and tenant data structured and easy to manage.'),
+        'icon' => 'fa-solid fa-language',
+        'title' => $translations('home_feature_3_title', 'Multilingual care'),
+        'text' => $translations('home_feature_3_text', 'Communicate with staff and patients in English, Arabic, French, or German.'),
     ],
     [
-        'icon' => 'fa-chart-line',
-        'title' => $translations('features.analytics', 'Daily visibility'),
-        'text' => $translations('features.analytics_text', 'See appointments, pending tasks, and activity trends without heavy reporting tools.'),
+        'icon' => 'fa-solid fa-plug-circle-bolt',
+        'title' => $translations('home_feature_4_title', 'Simple integrations'),
+        'text' => $translations('home_feature_4_text', 'Connect ClinicAll to your existing tools, gateways, and internal systems.'),
     ],
     [
-        'icon' => 'fa-bell',
-        'title' => $translations('features.notifications', 'Workflow reminders'),
-        'text' => $translations('features.notifications_text', 'Support teams with timely reminders for confirmations and follow-ups.'),
+        'icon' => 'fa-solid fa-lock',
+        'title' => $translations('home_feature_5_title', 'Security by design'),
+        'text' => $translations('home_feature_5_text', 'Role-based access, audit-friendly activity, and protected data handling.'),
     ],
     [
-        'icon' => 'fa-shield-heart',
-        'title' => $translations('features.security', 'Secure access'),
-        'text' => $translations('features.security_text', 'Role-based access keeps staff focused on what they are allowed to see and do.'),
+        'icon' => 'fa-solid fa-headset',
+        'title' => $translations('home_feature_6_title', 'Support that stays close'),
+        'text' => $translations('home_feature_6_text', 'Give teams dependable help from onboarding to daily operations.'),
     ],
 ];
 
 $steps = [
-    $translations('steps.one', 'Set up your clinics and doctors'),
-    $translations('steps.two', 'Publish availability and booking options'),
-    $translations('steps.three', 'Track appointments from one dashboard'),
+    [
+        'number' => '01',
+        'title' => $translations('home_step_1_title', 'Set up your workspace'),
+        'text' => $translations('home_step_1_text', 'Configure locations, teams, and permissions in a few minutes.'),
+    ],
+    [
+        'number' => '02',
+        'title' => $translations('home_step_2_title', 'Connect your channels'),
+        'text' => $translations('home_step_2_text', 'Link phones, forms, or APIs to centralize care requests and updates.'),
+    ],
+    [
+        'number' => '03',
+        'title' => $translations('home_step_3_title', 'Coordinate and scale'),
+        'text' => $translations('home_step_3_text', 'Track outcomes, improve service speed, and expand across departments.'),
+    ],
 ];
 
-$socialProof = [
-    $translations('proof.one', 'Trusted by growing clinic teams'),
-    $translations('proof.two', 'Multi-language ready'),
-    $translations('proof.three', 'Designed for daily operations'),
+$apiCards = [
+    [
+        'title' => $translations('home_api_1_title', 'REST APIs'),
+        'text' => $translations('home_api_1_text', 'Automate patient records, appointments, notifications, and reporting.'),
+    ],
+    [
+        'title' => $translations('home_api_2_title', 'Webhook events'),
+        'text' => $translations('home_api_2_text', 'Receive real-time updates when key clinical or operational events occur.'),
+    ],
+    [
+        'title' => $translations('home_api_3_title', 'SSO and identity'),
+        'text' => $translations('home_api_3_text', 'Integrate with your identity provider for secure staff access.'),
+    ],
+];
+
+$downloads = [
+    [
+        'platform' => $translations('home_download_web_title', 'Web portal'),
+        'text' => $translations('home_download_web_text', 'Access ClinicAll from any modern browser with no installation.'),
+        'icon' => 'fa-solid fa-globe',
+    ],
+    [
+        'platform' => $translations('home_download_mobile_title', 'Mobile apps'),
+        'text' => $translations('home_download_mobile_text', 'Keep teams connected on the go with responsive mobile experiences.'),
+        'icon' => 'fa-solid fa-mobile-screen-button',
+    ],
+    [
+        'platform' => $translations('home_download_desktop_title', 'Desktop tools'),
+        'text' => $translations('home_download_desktop_text', 'Use desktop-friendly views for reception, operations, and administration.'),
+        'icon' => 'fa-solid fa-desktop',
+    ],
 ];
 
 $plans = [
     [
-        'name' => $translations('pricing.starter', 'Starter'),
-        'price' => $translations('pricing.starter_price', 'Free'),
-        'period' => $translations('pricing.per_month', 'per month'),
-        'description' => $translations('pricing.starter_desc', 'A simple way to launch booking and internal scheduling.'),
+        'name' => $translations('home_plan_basic_name', 'Starter'),
+        'priceMonthly' => $translations('home_plan_basic_monthly', '$49'),
+        'priceYearly' => $translations('home_plan_basic_yearly', '$499'),
+        'badge' => $translations('home_plan_basic_badge', 'Best for small practices'),
         'items' => [
-            $translations('pricing.starter_item_1', 'Public booking setup'),
-            $translations('pricing.starter_item_2', 'Single clinic workspace'),
-            $translations('pricing.starter_item_3', 'Core dashboard tools'),
+            $translations('home_plan_basic_item_1', 'Core dashboard and team tools'),
+            $translations('home_plan_basic_item_2', 'Standard messaging and reminders'),
+            $translations('home_plan_basic_item_3', 'Email support'),
         ],
-        'featured' => false,
     ],
     [
-        'name' => $translations('pricing.growth', 'Growth'),
-        'price' => $translations('pricing.growth_price', 'Popular'),
-        'period' => $translations('pricing.growth_period', 'for scaling clinics'),
-        'description' => $translations('pricing.growth_desc', 'Add more teams, locations, and automated follow-up with confidence.'),
+        'name' => $translations('home_plan_growth_name', 'Growth'),
+        'priceMonthly' => $translations('home_plan_growth_monthly', '$99'),
+        'priceYearly' => $translations('home_plan_growth_yearly', '$999'),
+        'badge' => $translations('home_plan_growth_badge', 'Most popular'),
+        'highlight' => true,
         'items' => [
-            $translations('pricing.growth_item_1', 'Multi-clinic operations'),
-            $translations('pricing.growth_item_2', 'Team coordination tools'),
-            $translations('pricing.growth_item_3', 'Enhanced visibility and control'),
+            $translations('home_plan_growth_item_1', 'Advanced workflows and reporting'),
+            $translations('home_plan_growth_item_2', 'API access and integrations'),
+            $translations('home_plan_growth_item_3', 'Priority support'),
         ],
-        'featured' => true,
     ],
     [
-        'name' => $translations('pricing.enterprise', 'Enterprise'),
-        'price' => $translations('pricing.enterprise_price', 'Custom'),
-        'period' => $translations('pricing.enterprise_period', 'for larger groups'),
-        'description' => $translations('pricing.enterprise_desc', 'Built for clinic networks that need consistent control across branches.'),
+        'name' => $translations('home_plan_scale_name', 'Scale'),
+        'priceMonthly' => $translations('home_plan_scale_monthly', 'Custom'),
+        'priceYearly' => $translations('home_plan_scale_yearly', 'Custom'),
+        'badge' => $translations('home_plan_scale_badge', 'For multi-site organizations'),
         'items' => [
-            $translations('pricing.enterprise_item_1', 'Branch-level structure'),
-            $translations('pricing.enterprise_item_2', 'Advanced role access'),
-            $translations('pricing.enterprise_item_3', 'Priority onboarding support'),
+            $translations('home_plan_scale_item_1', 'Enterprise onboarding'),
+            $translations('home_plan_scale_item_2', 'Custom integrations and SLA'),
+            $translations('home_plan_scale_item_3', 'Dedicated account support'),
         ],
-        'featured' => false,
     ],
 ];
 
-$testimonials = [
+$faqs = [
     [
-        'quote' => $translations('testimonial.one_quote', 'ClinicAll made our daily schedule easier to manage and helped our team stay aligned.'),
-        'name' => $translations('testimonial.one_name', 'Operations Lead'),
-        'role' => $translations('testimonial.one_role', 'Multi-clinic practice'),
+        'q' => $translations('home_faq_1_q', 'Can ClinicAll support multiple languages?'),
+        'a' => $translations('home_faq_1_a', 'Yes. The public site and product experience can present key content in English, Arabic, French, and German.'),
     ],
     [
-        'quote' => $translations('testimonial.two_quote', 'The multilingual experience gives patients a smoother first impression from the start.'),
-        'name' => $translations('testimonial.two_name', 'Front Desk Manager'),
-        'role' => $translations('testimonial.two_role', 'Patient services'),
+        'q' => $translations('home_faq_2_q', 'Does ClinicAll provide APIs?'),
+        'a' => $translations('home_faq_2_a', 'Yes. ClinicAll is designed for integration with REST endpoints, webhooks, and identity systems.'),
+    ],
+    [
+        'q' => $translations('home_faq_3_q', 'Is there a downloadable app or portal access?'),
+        'a' => $translations('home_faq_3_a', 'ClinicAll offers a browser-based portal and can extend to mobile and desktop-friendly experiences.'),
+    ],
+    [
+        'q' => $translations('home_faq_4_q', 'Can we start small and upgrade later?'),
+        'a' => $translations('home_faq_4_a', 'Absolutely. Start with a starter plan and move to higher tiers as your team and workflows grow.'),
     ],
 ];
+
+$billingLabel = $translations('home_billing_label', 'Choose monthly or yearly billing');
+$monthlyLabel = $translations('home_billing_monthly', 'Monthly');
+$yearlyLabel = $translations('home_billing_yearly', 'Yearly');
+$heroTitle = $translations('home_hero_title', 'Modern care coordination for every clinic');
+$heroText = $translations('home_hero_text', 'ClinicAll brings communication, scheduling, integrations, and patient support into one elegant platform.');
+$heroPrimary = $translations('home_hero_primary', 'Start free');
+$heroSecondary = $translations('home_hero_secondary', 'View pricing');
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo e($locale); ?>" dir="<?php echo e($dir); ?>">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo e($appName); ?> — <?php echo e($translations('meta.title', 'Clinic booking and management')); ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="<?php echo e($appUrl); ?>/assets/css/app.css" rel="stylesheet">
-</head>
-<body class="marketing-page">
-<div class="marketing-nav border-bottom">
-    <div class="container py-3 d-flex align-items-center justify-content-between gap-3">
-        <a href="<?php echo e($appUrl); ?>/" class="d-flex align-items-center gap-2 text-decoration-none fw-bold">
-            <i class="fa fa-hospital text-primary"></i>
-            <span><?php echo e($appName); ?></span>
-        </a>
-
-        <div class="d-flex align-items-center gap-2 ms-auto">
-            <div class="language-switcher btn-group" role="group" aria-label="<?php echo e($translations('language.switcher_label', 'Language switcher')); ?>">
-                <?php foreach ($locales as $code => $label): ?>
-                    <?php
-                    $langUrl = '?lang=' . urlencode($code);
-                    if (isset($_GET['page']) && $_GET['page'] !== '') {
-                        $langUrl .= '&page=' . urlencode((string) $_GET['page']);
-                    }
-                    ?>
-                    <a class="btn btn-sm <?php echo $locale === $code ? 'btn-primary' : 'btn-outline-secondary'; ?>"
-                       href="<?php echo e($langUrl); ?>"
-                       lang="<?php echo e($code); ?>"
-                       <?php echo $locale === $code ? 'aria-current="true"' : ''; ?>>
-                        <?php echo e($label); ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-
-            <a href="<?php echo e($loginUrl); ?>" class="btn btn-primary btn-sm">
-                <i class="fa fa-right-to-bracket me-1"></i><?php echo e($translations('nav.login', 'Login')); ?>
-            </a>
+<div class="marketing-topbar py-2 border-bottom bg-body-tertiary">
+    <div class="container-fluid px-3 px-lg-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <div class="d-flex flex-wrap align-items-center gap-2 small text-body-secondary">
+            <span class="fw-semibold"><?php echo htmlspecialchars($langLabel, ENT_QUOTES, 'UTF-8'); ?>:</span>
+            <?php foreach ($topLanguages as $code => $label): ?>
+                <a class="text-decoration-none <?php echo $code === $locale ? 'fw-semibold text-primary' : 'text-body-secondary'; ?>" href="?lang=<?php echo htmlspecialchars($code, ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php echo htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="<?php echo htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8'); ?>" class="small text-body-secondary text-decoration-none"><?php echo htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8'); ?></a>
+            <span class="small text-body-secondary">•</span>
+            <a href="<?php echo htmlspecialchars($contactPhone, ENT_QUOTES, 'UTF-8'); ?>" class="small text-body-secondary text-decoration-none"><?php echo htmlspecialchars($contactPhone, ENT_QUOTES, 'UTF-8'); ?></a>
         </div>
     </div>
 </div>
 
-<header class="marketing-hero position-relative overflow-hidden">
-    <div class="marketing-glow marketing-glow-1"></div>
-    <div class="marketing-glow marketing-glow-2"></div>
-    <div class="marketing-orb marketing-orb-1"></div>
-    <div class="marketing-orb marketing-orb-2"></div>
-    <div class="container position-relative py-5">
+<section class="hero-section py-5">
+    <div class="container py-lg-3">
         <div class="row align-items-center g-4">
-            <div class="col-lg-6 reveal-on-scroll">
-                <span class="badge rounded-pill text-bg-light mb-3"><?php echo e($translations('hero.eyebrow', 'Clinic operations, simplified')); ?></span>
-                <h1 class="display-5 fw-bold mb-3"><?php echo e($translations('hero.title', 'A modern booking experience for clinics and patients')); ?></h1>
-                <p class="lead text-body-secondary mb-4"><?php echo e($translations('hero.subtitle', 'ClinicAll helps your team manage appointments, doctors, clinics, and daily operations from one clear place.')); ?></p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="<?php echo e($loginUrl); ?>" class="btn btn-primary btn-lg">
-                        <i class="fa fa-calendar-check me-2"></i><?php echo e($translations('hero.primary_cta', 'Get started')); ?>
-                    </a>
-                    <a href="#features" class="btn btn-outline-secondary btn-lg">
-                        <?php echo e($translations('hero.secondary_cta', 'Explore features')); ?>
-                    </a>
+            <div class="col-lg-7">
+                <span class="badge rounded-pill text-bg-primary-subtle text-primary border border-primary-subtle mb-3"><?php echo htmlspecialchars($translations('home_hero_badge', 'ClinicAll platform'), ENT_QUOTES, 'UTF-8'); ?></span>
+                <h1 class="display-5 fw-bold mb-3"><?php echo htmlspecialchars($heroTitle, ENT_QUOTES, 'UTF-8'); ?></h1>
+                <p class="lead text-body-secondary mb-4"><?php echo htmlspecialchars($heroText, ENT_QUOTES, 'UTF-8'); ?></p>
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a href="<?php echo htmlspecialchars($primaryUrl, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-primary btn-lg"><?php echo htmlspecialchars($heroPrimary, ENT_QUOTES, 'UTF-8'); ?></a>
+                    <a href="#pricing" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($heroSecondary, ENT_QUOTES, 'UTF-8'); ?></a>
                 </div>
-                <div class="marketing-trust row row-cols-1 row-cols-sm-3 g-3 mt-4">
-                    <?php foreach ($socialProof as $proof): ?>
-                        <div class="col">
-                            <div class="card h-100 border-0 shadow-sm marketing-trust-card">
-                                <div class="card-body p-3">
-                                    <div class="small fw-semibold"><?php echo e($proof); ?></div>
+                <div class="marketing-logos d-flex flex-wrap gap-3 align-items-center">
+                    <?php foreach ($logos as $logo): ?>
+                        <span class="badge rounded-pill text-bg-light border text-body-secondary px-3 py-2"><?php echo htmlspecialchars($logo, ENT_QUOTES, 'UTF-8'); ?></span>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-lg rounded-4">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_dashboard_label', 'Live overview'), ENT_QUOTES, 'UTF-8'); ?></div>
+                                <div class="fw-semibold"><?php echo htmlspecialchars($translations('home_dashboard_title', 'Clinic performance snapshot'), ENT_QUOTES, 'UTF-8'); ?></div>
+                            </div>
+                            <span class="badge text-bg-success-subtle text-success"><?php echo htmlspecialchars($translations('home_dashboard_live', 'Live'), ENT_QUOTES, 'UTF-8'); ?></span>
+                        </div>
+                        <div class="row g-3">
+                            <?php foreach ($heroStats as $stat): ?>
+                                <div class="col-6">
+                                    <div class="stat-card rounded-4 border p-3 h-100">
+                                        <div class="fs-3 fw-bold mb-1"><?php echo htmlspecialchars($stat['value'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                        <div class="small text-body-secondary"><?php echo htmlspecialchars($stat['label'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="marketing-logos py-4 border-top border-bottom bg-body-tertiary">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+                <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_trust_title', 'Trusted by care teams'), ENT_QUOTES, 'UTF-8'); ?></div>
+                <div class="fw-semibold"><?php echo htmlspecialchars($translations('home_trust_text', 'Built for clinics, hospitals, and healthcare partners.'), ENT_QUOTES, 'UTF-8'); ?></div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <?php foreach ($logos as $logo): ?>
+                    <span class="badge rounded-pill text-bg-body border"><?php echo htmlspecialchars($logo, ENT_QUOTES, 'UTF-8'); ?></span>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_features_label', 'Why teams choose ClinicAll'), ENT_QUOTES, 'UTF-8'); ?></div>
+            <h2 class="fw-bold"><?php echo htmlspecialchars($translations('home_features_title', 'Everything your practice needs in one product'), ENT_QUOTES, 'UTF-8'); ?></h2>
+        </div>
+        <div class="row g-4">
+            <?php foreach ($features as $feature): ?>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <div class="icon-circle mb-3"><i class="<?php echo htmlspecialchars($feature['icon'], ENT_QUOTES, 'UTF-8'); ?>"></i></div>
+                            <h3 class="h5"><?php echo htmlspecialchars($feature['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                            <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($feature['text'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-5">
+                <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_steps_label', 'How it works'), ENT_QUOTES, 'UTF-8'); ?></div>
+                <h2 class="fw-bold mb-3"><?php echo htmlspecialchars($translations('home_steps_title', 'Go from setup to scale in three simple steps'), ENT_QUOTES, 'UTF-8'); ?></h2>
+                <p class="text-body-secondary"><?php echo htmlspecialchars($translations('home_steps_text', 'A guided onboarding flow helps your team move faster without added complexity.'), ENT_QUOTES, 'UTF-8'); ?></p>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <?php foreach ($steps as $step): ?>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-4">
+                                <div class="card-body p-4">
+                                    <div class="badge text-bg-primary-subtle text-primary rounded-pill mb-3"><?php echo htmlspecialchars($step['number'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                    <h3 class="h5"><?php echo htmlspecialchars($step['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                                    <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($step['text'], ENT_QUOTES, 'UTF-8'); ?></p>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <div class="marketing-stats mt-4 row g-3">
-                    <div class="col-sm-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <div class="h3 mb-1"><?php echo e($translations('stats.one_value', '24/7')); ?></div>
-                                <div class="text-body-secondary small"><?php echo e($translations('stats.one_label', 'Booking access')); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <div class="h3 mb-1"><?php echo e($translations('stats.two_value', '1')); ?></div>
-                                <div class="text-body-secondary small"><?php echo e($translations('stats.two_label', 'Unified dashboard')); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <div class="h3 mb-1"><?php echo e($translations('stats.three_value', 'Multi')); ?></div>
-                                <div class="text-body-secondary small"><?php echo e($translations('stats.three_label', 'Language ready')); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="col-lg-6 reveal-on-scroll">
-                <div class="marketing-showcase card border-0 shadow-lg">
-                    <div class="card-body p-4 p-lg-5">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                                <div class="small text-body-secondary"><?php echo e($translations('hero.panel_kicker', 'Live clinic overview')); ?></div>
-                                <h2 class="marketing-section-title h4 mb-0"><?php echo e($translations('hero.panel_title', 'Designed for busy clinic teams')); ?></h2>
-                            </div>
-                            <span class="badge rounded-pill text-bg-primary"><?php echo e($translations('hero.panel_badge', 'Ready')); ?></span>
-                        </div>
-                        <p class="text-body-secondary mb-4"><?php echo e($translations('hero.panel_text', 'Reduce manual follow-up, keep schedules visible, and provide patients with a smoother first impression.')); ?></p>
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item px-0 d-flex align-items-start gap-3">
-                                <i class="fa fa-circle-check text-success mt-1"></i>
-                                <div>
-                                    <div class="fw-semibold"><?php echo e($translations('hero.panel_item_1', 'Clear appointment flow')); ?></div>
-                                    <small class="text-body-secondary"><?php echo e($translations('hero.panel_item_1_text', 'From booking to confirmation in one streamlined process.')); ?></small>
-                                </div>
-                            </div>
-                            <div class="list-group-item px-0 d-flex align-items-start gap-3">
-                                <i class="fa fa-circle-check text-success mt-1"></i>
-                                <div>
-                                    <div class="fw-semibold"><?php echo e($translations('hero.panel_item_2', 'Team-friendly operations')); ?></div>
-                                    <small class="text-body-secondary"><?php echo e($translations('hero.panel_item_2_text', 'Help staff work with less friction across clinics and branches.')); ?></small>
-                                </div>
-                            </div>
-                            <div class="list-group-item px-0 d-flex align-items-start gap-3">
-                                <i class="fa fa-circle-check text-success mt-1"></i>
-                                <div>
-                                    <div class="fw-semibold"><?php echo e($translations('hero.panel_item_3', 'Built for multiple languages')); ?></div>
-                                    <small class="text-body-secondary"><?php echo e($translations('hero.panel_item_3_text', 'Switch between English, Arabic, French, and German support.')); ?></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<section id="features" class="marketing-features py-5">
-    <div class="container">
-        <div class="marketing-section-title mb-4 reveal-on-scroll">
-            <h2 class="h3 mb-2"><?php echo e($translations('features.title', 'Feature highlights')); ?></h2>
-            <p class="text-body-secondary mb-0"><?php echo e($translations('features.subtitle', 'Everything you need to present, book, and operate with confidence.')); ?></p>
-        </div>
-
-        <div class="row g-4">
-            <?php foreach ($features as $feature): ?>
-            <div class="col-md-6 col-lg-4 reveal-on-scroll">
-                <article class="card h-100 border-0 shadow-sm marketing-feature-card">
-                    <div class="card-body p-4">
-                        <div class="feature-icon mb-3"><i class="fa <?php echo e($feature['icon']); ?>"></i></div>
-                        <h3 class="h5"><?php echo e($feature['title']); ?></h3>
-                        <p class="text-body-secondary mb-0"><?php echo e($feature['text']); ?></p>
-                    </div>
-                </article>
-            </div>
-            <?php endforeach; ?>
         </div>
     </div>
 </section>
 
-<section class="marketing-section py-5 bg-body-tertiary">
-    <div class="container">
-        <div class="marketing-section-title mb-4 reveal-on-scroll">
-            <h2 class="h3 mb-2"><?php echo e($translations('workflow.title', 'How it works')); ?></h2>
-            <p class="text-body-secondary mb-0"><?php echo e($translations('workflow.subtitle', 'A simple setup path for a smoother launch.')); ?></p>
-        </div>
-
-        <div class="row g-4">
-            <?php foreach ($steps as $index => $step): ?>
-            <div class="col-md-4 reveal-on-scroll">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="badge text-bg-primary rounded-pill mb-3"><?php echo str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT); ?></div>
-                        <h3 class="h5"><?php echo e($step); ?></h3>
-                        <p class="text-body-secondary mb-0"><?php echo e($translations('workflow.step_text', 'Use ClinicAll to keep every day organized with less effort.')); ?></p>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="marketing-section py-5">
-    <div class="container">
-        <div class="marketing-section-title mb-4 reveal-on-scroll">
-            <h2 class="h3 mb-2"><?php echo e($translations('value.title', 'Value that grows with your clinic')); ?></h2>
-            <p class="text-body-secondary mb-0"><?php echo e($translations('value.subtitle', 'Flexible enough for a single clinic and ready for multi-location teams.')); ?></p>
-        </div>
-
-        <div class="row g-4">
-            <?php foreach ($plans as $plan): ?>
-            <div class="col-lg-4 reveal-on-scroll">
-                <div class="card h-100 border-0 shadow-sm marketing-pricing <?php echo $plan['featured'] ? 'marketing-price-card border border-primary' : 'marketing-price-card'; ?>">
-                    <div class="card-body p-4 p-lg-5">
-                        <?php if ($plan['featured']): ?>
-                            <div class="badge text-bg-primary rounded-pill mb-3"><?php echo e($translations('pricing.featured', 'Most chosen')); ?></div>
-                        <?php endif; ?>
-                        <h3 class="h4 mb-2"><?php echo e($plan['name']); ?></h3>
-                        <div class="display-6 fw-bold mb-1"><?php echo e($plan['price']); ?></div>
-                        <div class="text-body-secondary mb-3"><?php echo e($plan['period']); ?></div>
-                        <p class="text-body-secondary mb-4"><?php echo e($plan['description']); ?></p>
-                        <ul class="list-unstyled mb-4">
-                            <?php foreach ($plan['items'] as $item): ?>
-                                <li class="d-flex gap-2 mb-2">
-                                    <i class="fa fa-check text-success mt-1"></i>
-                                    <span><?php echo e($item); ?></span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="<?php echo e($loginUrl); ?>" class="btn <?php echo $plan['featured'] ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
-                            <?php echo e($translations('pricing.cta', 'Choose plan')); ?>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="marketing-section py-5 bg-body-tertiary">
-    <div class="container">
-        <div class="row g-4 align-items-stretch">
-            <?php foreach ($testimonials as $testimonial): ?>
-            <div class="col-lg-6 reveal-on-scroll">
-                <article class="card h-100 border-0 shadow-sm marketing-testimonial">
-                    <div class="card-body p-4 p-lg-5">
-                        <i class="fa fa-quote-left text-primary fs-3 mb-3"></i>
-                        <p class="fs-5 mb-4"><?php echo e($testimonial['quote']); ?></p>
-                        <div class="fw-semibold"><?php echo e($testimonial['name']); ?></div>
-                        <div class="text-body-secondary small"><?php echo e($testimonial['role']); ?></div>
-                    </div>
-                </article>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="marketing-section py-5">
+<section class="marketing-api py-5">
     <div class="container">
         <div class="row align-items-center g-4">
-            <div class="col-lg-7 reveal-on-scroll">
-                <div class="marketing-section-title mb-3">
-                    <h2 class="h3 mb-2"><?php echo e($translations('i18n.title', 'Built for multilingual clinics')); ?></h2>
-                    <p class="text-body-secondary mb-0"><?php echo e($translations('i18n.subtitle', 'Make the public experience easier to use for patients and staff in the language they prefer.')); ?></p>
-                </div>
-                <ul class="list-unstyled mb-0">
-                    <li class="d-flex gap-3 mb-3">
-                        <i class="fa fa-language text-primary mt-1"></i>
-                        <span><?php echo e($translations('i18n.point_1', 'Interface labels can be switched for English, Arabic, French, and German.')); ?></span>
-                    </li>
-                    <li class="d-flex gap-3 mb-3">
-                        <i class="fa fa-align-right text-primary mt-1"></i>
-                        <span><?php echo e($translations('i18n.point_2', 'Right-to-left support helps Arabic content render naturally.')); ?></span>
-                    </li>
-                    <li class="d-flex gap-3">
-                        <i class="fa fa-user-check text-primary mt-1"></i>
-                        <span><?php echo e($translations('i18n.point_3', 'Patient-facing navigation stays clear and consistent across locales.')); ?></span>
-                    </li>
-                </ul>
+            <div class="col-lg-4">
+                <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_api_label', 'APIs and integrations'), ENT_QUOTES, 'UTF-8'); ?></div>
+                <h2 class="fw-bold mb-3"><?php echo htmlspecialchars($translations('home_api_title', 'Connect ClinicAll with the systems your team already uses'), ENT_QUOTES, 'UTF-8'); ?></h2>
+                <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($translations('home_api_text', 'Use secure APIs and event-driven hooks to keep workflows synchronized across your tools.'), ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
-            <div class="col-lg-5 reveal-on-scroll">
-                <div class="card border-0 shadow-sm marketing-showcase">
-                    <div class="card-body p-4">
-                        <div class="small text-body-secondary mb-2"><?php echo e($translations('language.preview', 'Language preview')); ?></div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <?php foreach ($locales as $code => $label): ?>
-                                <span class="badge rounded-pill <?php echo $locale === $code ? 'text-bg-primary' : 'text-bg-light'; ?>">
-                                    <?php echo e($label); ?>
-                                </span>
-                            <?php endforeach; ?>
+            <div class="col-lg-8">
+                <div class="row g-3">
+                    <?php foreach ($apiCards as $card): ?>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-4">
+                                <div class="card-body p-4">
+                                    <h3 class="h5"><?php echo htmlspecialchars($card['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                                    <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($card['text'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                </div>
+                            </div>
                         </div>
-                        <hr>
-                        <p class="mb-0 text-body-secondary"><?php echo e($translations('language.help', 'Use the switcher above to preview the public page in another language.')); ?></p>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="marketing-downloads py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="text-center mb-4">
+            <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_downloads_label', 'Downloads and apps'), ENT_QUOTES, 'UTF-8'); ?></div>
+            <h2 class="fw-bold"><?php echo htmlspecialchars($translations('home_downloads_title', 'Access ClinicAll wherever your team works'), ENT_QUOTES, 'UTF-8'); ?></h2>
+        </div>
+        <div class="row g-4">
+            <?php foreach ($downloads as $download): ?>
+                <div class="col-md-4">
+                    <div class="marketing-app-card card h-100 border-0 shadow-sm rounded-4">
+                        <div class="card-body p-4">
+                            <div class="icon-circle mb-3"><i class="<?php echo htmlspecialchars($download['icon'], ENT_QUOTES, 'UTF-8'); ?>"></i></div>
+                            <h3 class="h5"><?php echo htmlspecialchars($download['platform'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                            <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($download['text'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section id="pricing" class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_pricing_label', 'Pricing and plans'), ENT_QUOTES, 'UTF-8'); ?></div>
+            <h2 class="fw-bold mb-3"><?php echo htmlspecialchars($translations('home_pricing_title', 'Flexible subscriptions for growing care teams'), ENT_QUOTES, 'UTF-8'); ?></h2>
+            <div class="marketing-plan-switch d-inline-flex align-items-center gap-2 badge text-bg-light border px-3 py-2">
+                <span><?php echo htmlspecialchars($billingLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+                <span class="text-body-secondary"><?php echo htmlspecialchars($monthlyLabel, ENT_QUOTES, 'UTF-8'); ?> / <?php echo htmlspecialchars($yearlyLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+            </div>
+        </div>
+        <div class="row g-4">
+            <?php foreach ($plans as $plan): ?>
+                <div class="col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm border <?php echo !empty($plan['highlight']) ? 'border-primary' : ''; ?>">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h3 class="h4 mb-1"><?php echo htmlspecialchars($plan['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                                    <div class="text-body-secondary small"><?php echo htmlspecialchars($plan['badge'], ENT_QUOTES, 'UTF-8'); ?></div>
+                                </div>
+                                <?php if (!empty($plan['highlight'])): ?>
+                                    <span class="badge text-bg-primary"><?php echo htmlspecialchars($translations('home_plan_featured', 'Featured'), ENT_QUOTES, 'UTF-8'); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="display-6 fw-bold mb-3"><?php echo htmlspecialchars($plan['priceMonthly'], ENT_QUOTES, 'UTF-8'); ?></div>
+                            <ul class="list-unstyled mb-4">
+                                <?php foreach ($plan['items'] as $item): ?>
+                                    <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <a href="<?php echo htmlspecialchars($primaryUrl, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-outline-primary mt-auto"><?php echo htmlspecialchars($translations('home_plan_cta', 'Choose plan'), ENT_QUOTES, 'UTF-8'); ?></a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="marketing-faq py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="text-center mb-4">
+                    <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_faq_label', 'Frequently asked questions'), ENT_QUOTES, 'UTF-8'); ?></div>
+                    <h2 class="fw-bold"><?php echo htmlspecialchars($translations('home_faq_title', 'Quick answers for your team'), ENT_QUOTES, 'UTF-8'); ?></h2>
+                </div>
+                <div class="accordion" id="faqAccordion">
+                    <?php foreach ($faqs as $index => $faq): ?>
+                        <div class="marketing-faq-item accordion-item mb-3 rounded-4 overflow-hidden shadow-sm">
+                            <h3 class="accordion-header" id="faqHeading<?php echo (int) $index; ?>">
+                                <button class="accordion-button <?php echo $index === 0 ? '' : 'collapsed'; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse<?php echo (int) $index; ?>" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-controls="faqCollapse<?php echo (int) $index; ?>">
+                                    <?php echo htmlspecialchars($faq['q'], ENT_QUOTES, 'UTF-8'); ?>
+                                </button>
+                            </h3>
+                            <div id="faqCollapse<?php echo (int) $index; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>" aria-labelledby="faqHeading<?php echo (int) $index; ?>" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-body-secondary">
+                                    <?php echo htmlspecialchars($faq['a'], ENT_QUOTES, 'UTF-8'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="marketing-contact py-5">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($translations('home_contact_label', 'Need help choosing a plan?'), ENT_QUOTES, 'UTF-8'); ?></div>
+                        <h2 class="fw-bold mb-2"><?php echo htmlspecialchars($translations('home_contact_title', 'Talk to the ClinicAll team'), ENT_QUOTES, 'UTF-8'); ?></h2>
+                        <p class="text-body-secondary mb-0"><?php echo htmlspecialchars($translations('home_contact_text', 'We can help with onboarding, integrations, migration, or product questions.'), ENT_QUOTES, 'UTF-8'); ?></p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="mailto:<?php echo htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-primary me-2"><?php echo htmlspecialchars($translations('home_contact_email', 'Email us'), ENT_QUOTES, 'UTF-8'); ?></a>
+                        <a href="tel:<?php echo htmlspecialchars($contactPhone, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-outline-secondary"><?php echo htmlspecialchars($translations('home_contact_call', 'Call support'), ENT_QUOTES, 'UTF-8'); ?></a>
                     </div>
                 </div>
             </div>
@@ -405,26 +448,13 @@ $testimonials = [
     </div>
 </section>
 
-<section class="marketing-cta py-5">
-    <div class="container">
-        <div class="card border-0 shadow-lg reveal-on-scroll">
-            <div class="card-body p-4 p-lg-5 text-center">
-                <h2 class="h3 mb-3"><?php echo e($translations('cta.title', 'Ready to streamline your clinic?')); ?></h2>
-                <p class="text-body-secondary mb-4"><?php echo e($translations('cta.subtitle', 'Sign in to manage appointments, or switch languages to see the public experience in your preferred locale.')); ?></p>
-                <div class="d-flex justify-content-center flex-wrap gap-2">
-                    <a href="<?php echo e($loginUrl); ?>" class="btn btn-primary btn-lg">
-                        <i class="fa fa-right-to-bracket me-2"></i><?php echo e($translations('cta.primary', 'Login to Dashboard')); ?>
-                    </a>
-                    <a href="#features" class="btn btn-outline-secondary btn-lg">
-                        <?php echo e($translations('cta.secondary', 'Review features')); ?>
-                    </a>
-                </div>
-            </div>
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3"><?php echo htmlspecialchars($translations('home_final_cta_title', 'Build a better care experience with ClinicAll'), ENT_QUOTES, 'UTF-8'); ?></h2>
+        <p class="text-body-secondary mb-4"><?php echo htmlspecialchars($translations('home_final_cta_text', 'Create a more connected, multilingual, and efficient patient journey today.'), ENT_QUOTES, 'UTF-8'); ?></p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="<?php echo htmlspecialchars($primaryUrl, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-primary btn-lg"><?php echo htmlspecialchars($translations('home_final_cta_primary', 'Get started'), ENT_QUOTES, 'UTF-8'); ?></a>
+            <a href="#pricing" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($translations('home_final_cta_secondary', 'Review plans'), ENT_QUOTES, 'UTF-8'); ?></a>
         </div>
     </div>
 </section>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo e($appUrl); ?>/assets/js/app.js"></script>
-</body>
-</html>
