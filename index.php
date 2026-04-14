@@ -6,6 +6,14 @@
 
 $cfg = require_once __DIR__ . '/bootstrap.php';
 
+$supported_locales = ['en', 'ar', 'fr', 'de'];
+$translations_all = require __DIR__ . '/resources/i18n.php';
+$requested_locale = strtolower((string)($_GET['lang'] ?? ($_SESSION['locale'] ?? 'en')));
+$locale = in_array($requested_locale, $supported_locales, true) ? $requested_locale : 'en';
+$_SESSION['locale'] = $locale;
+$t = $translations_all[$locale] ?? $translations_all['en'] ?? [];
+$dir = ($t['meta.direction'] ?? 'ltr') === 'rtl' ? 'rtl' : 'ltr';
+
 // Redirect to install wizard if not installed
 if (!$cfg['app']['installed']) {
     header('Location: install/index.php');
@@ -85,12 +93,18 @@ $routes = [
 // Fix: appointments list vs edit
 $routes['appointments'] = 'views/appointments.php';
 
-$page = preg_replace('/[^a-z0-9_]/', '', strtolower((string)($_GET['page'] ?? 'dashboard')));
+$page = preg_replace('/[^a-z0-9_]/', '', strtolower((string)($_GET['page'] ?? (Auth::check() ? 'dashboard' : 'home'))));
 
 // Logout
 if ($page === 'logout') {
     if (Auth::check()) { Auth::logout(); }
     redirect('?page=login');
+}
+
+// Public homepage (no auth needed)
+if ($page === 'home') {
+    require_once __DIR__ . '/views/home.php';
+    exit;
 }
 
 // Login page (no auth needed)
