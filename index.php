@@ -12,14 +12,36 @@ if (!$cfg['app']['installed']) {
     exit;
 }
 
-// Handle global POST actions (tenant switch, logout) before routing
+// Handle global POST actions (tenant switch, impersonation) before routing
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_action'])) {
     require_once __DIR__ . '/core/helpers.php';
+
     if ($_POST['_action'] === 'switch_tenant' && csrf_verify()) {
         $tid = clean_uuid($_POST['tenant_id'] ?? '');
         if ($tid && Auth::isSuperAdmin()) {
             Auth::switchTenant($tid);
             flash('Switched to tenant.');
+        }
+        redirect($_SERVER['HTTP_REFERER'] ?? '?page=dashboard');
+    }
+
+    if ($_POST['_action'] === 'impersonate_user' && csrf_verify()) {
+        Auth::requireLogin();
+        $uid = clean_uuid($_POST['user_id'] ?? '');
+        if ($uid && Auth::impersonateUser($uid)) {
+            flash('Logged in as selected user.');
+        } else {
+            flash('Unable to log in as that user.', 'danger');
+        }
+        redirect($_SERVER['HTTP_REFERER'] ?? '?page=dashboard');
+    }
+
+    if ($_POST['_action'] === 'stop_impersonation' && csrf_verify()) {
+        Auth::requireLogin();
+        if (Auth::stopImpersonating()) {
+            flash('Returned to your original account.');
+        } else {
+            flash('No impersonation session was active.', 'warning');
         }
         redirect($_SERVER['HTTP_REFERER'] ?? '?page=dashboard');
     }

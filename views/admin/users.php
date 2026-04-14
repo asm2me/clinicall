@@ -91,7 +91,7 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
                         <th>Role</th>
                         <th>Last Login</th>
                         <th>Status</th>
-                        <th width="80"></th>
+                        <th width="180">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,7 +118,21 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
                         <td><small class="text-muted"><?php echo $u['last_login'] ? fmt_date($u['last_login'],'d M Y H:i') : 'Never'; ?></small></td>
                         <td><?php echo $u['enabled'] ? '<span class="badge text-bg-success">Active</span>' : '<span class="badge text-bg-secondary">Disabled</span>'; ?></td>
                         <td>
-                            <a href="?page=admin_user_edit&id=<?php echo e($u['id']); ?>" class="btn btn-sm btn-outline-primary"><i class="fa fa-edit"></i></a>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="?page=admin_user_edit&id=<?php echo e($u['id']); ?>" class="btn btn-sm btn-outline-primary" title="Edit user">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <?php if (Auth::canImpersonate() && $u['id'] !== Auth::userId()): ?>
+                                <form method="post" class="m-0">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="_action" value="impersonate_user">
+                                    <input type="hidden" name="user_id" value="<?php echo e($u['id']); ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Login as user">
+                                        <i class="fa fa-user-secret"></i>
+                                    </button>
+                                </form>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>

@@ -121,6 +121,20 @@
 
             <!-- Right side -->
             <ul class="navbar-nav ms-auto">
+                <?php if (Auth::isImpersonating()): ?>
+                <li class="nav-item d-flex align-items-center me-2">
+                    <span class="badge bg-warning text-dark">Impersonating</span>
+                </li>
+                <li class="nav-item">
+                    <form method="post" class="d-inline-block me-2">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="_action" value="stop_impersonation">
+                        <button type="submit" class="btn btn-sm btn-light">
+                            <i class="fa fa-rotate-left me-1"></i>Back to Admin
+                        </button>
+                    </form>
+                </li>
+                <?php endif; ?>
                 <!-- Booking link -->
                 <?php if ($tenant): ?>
                 <li class="nav-item">
@@ -164,8 +178,16 @@
                         <li><span class="dropdown-item-text text-muted small"><?php echo e($user['email']); ?></span></li>
                         <li><span class="dropdown-item-text text-muted small">Role: <?php echo ucfirst($user['role']); ?></span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="?page=logout">
-                            <i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                        <li>
+                            <a class="dropdown-item" href="?page=dashboard">
+                                <i class="fa fa-gauge me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="?page=logout">
+                                <i class="fa fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

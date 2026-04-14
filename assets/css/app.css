@@ -52,6 +52,23 @@ body.clinicall-admin .container-fluid {
     flex: 1;
 }
 
+body.clinicall-admin::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 12% 14%, rgba(31, 79, 143, 0.12), transparent 26%),
+        radial-gradient(circle at 88% 18%, rgba(113, 87, 168, 0.1), transparent 22%),
+        radial-gradient(circle at 50% 100%, rgba(24, 125, 114, 0.08), transparent 28%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.clinicall-admin > * {
+    position: relative;
+    z-index: 1;
+}
+
 body.clinicall-admin a {
     color: var(--ca-blue);
     text-decoration: none;
@@ -75,11 +92,14 @@ body.clinicall-admin a:hover {
 .navbar-brand {
     letter-spacing: 0.02em;
     font-size: 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 .navbar .container-fluid {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -134,12 +154,14 @@ body.clinicall-admin a:hover {
     box-shadow: 0 8px 18px rgba(15, 23, 36, 0.08);
     font-weight: 600;
     padding: 0.55rem 0.75rem;
+    border-radius: 999px;
 }
 
 /* ── Page structure ───────────────────────────────────────────────────── */
 .container-fluid.py-4.px-4 {
-    padding-top: 1.75rem !important;
-    padding-bottom: 2rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2.5rem !important;
+    max-width: 1580px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -155,13 +177,15 @@ h1, h2, h3, h4, h5, h6 {
 .footer-bar {
     font-size: 0.82rem;
     color: var(--ca-muted);
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(10px);
 }
 
 /* ── Cards ────────────────────────────────────────────────────────────── */
 .card {
     border: 1px solid rgba(201, 213, 226, 0.9);
     border-radius: var(--ca-radius-md);
-    background: rgba(255, 255, 255, 0.96);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 252, 254, 0.94));
     box-shadow: var(--ca-shadow-sm);
     overflow: hidden;
 }
@@ -174,7 +198,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-body {
-    padding: 1.15rem;
+    padding: 1.2rem;
 }
 
 .border-0.shadow-sm {
@@ -317,6 +341,11 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0 0 var(--ca-radius-md) var(--ca-radius-md);
 }
 
+.table td .btn,
+.table th .btn {
+    white-space: nowrap;
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 .btn {
     border-radius: 12px;
@@ -403,6 +432,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #23374c;
     font-weight: 600;
     margin-bottom: 0.45rem;
+    letter-spacing: 0.01em;
 }
 
 /* ── Alerts ───────────────────────────────────────────────────────────── */
@@ -410,6 +440,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 14px;
     border-width: 1px;
     box-shadow: var(--ca-shadow-sm);
+    border-color: rgba(201, 213, 226, 0.8);
 }
 
 /* ── Badges ───────────────────────────────────────────────────────────── */
@@ -427,7 +458,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    padding-bottom: 1rem;
+    padding: 0 0 1rem;
     margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--ca-border);
 }
@@ -510,6 +541,33 @@ body:not(.clinicall-admin) footer {
 
 .text-primary {
     color: var(--ca-blue) !important;
+}
+
+.input-group-text {
+    border-color: var(--ca-border-strong);
+    background: #f6f9fc;
+    color: var(--ca-slate);
+}
+
+.form-check-input {
+    border-color: rgba(95, 111, 130, 0.35);
+}
+
+.form-check-input:checked {
+    background-color: var(--ca-blue);
+    border-color: var(--ca-blue);
+}
+
+code.small,
+code {
+    color: #17406f;
+    background: #eef4fb;
+    border-radius: 8px;
+    padding: 0.2rem 0.45rem;
+}
+
+.dropdown-menu-end form {
+    margin: 0;
 }
 
 /* ── Responsive refinement ────────────────────────────────────────────── */

@@ -80,6 +80,81 @@ class Auth
         session_destroy();
     }
 
+    public static function impersonator(): ?array
+    {
+        return $_SESSION['impersonator'] ?? null;
+    }
+
+    public static function isImpersonating(): bool
+    {
+        return isset($_SESSION['impersonator'], $_SESSION['user']);
+    }
+
+    public static function canImpersonate(): bool
+    {
+        return in_array(self::role(), ['superadmin', 'admin'], true) && !self::isImpersonating();
+    }
+
+    public static function impersonateUser(string $userId): bool
+    {
+        if (!self::canImpersonate()) { return false; }
+
+        $target = Database::row(
+            "SELECT * FROM users WHERE id = :id AND enabled = " . Database::bool(true),
+            [':id' => $userId]
+        );
+
+        if (!$target) { return false; }
+        if ($target['id'] === self::userId()) { return false; }
+
+        if (self::role() === 'admin') {
+            $activeTenantId = self::tenant()['id'] ?? self::user()['tenant_id'] ?? null;
+            if (!$activeTenantId || $target['tenant_id'] !== $activeTenantId) {
+                return false;
+            }
+            if ($target['role'] === 'superadmin') {
+                return false;
+            }
+        }
+
+        $tenant = null;
+        if (!empty($target['tenant_id'])) {
+            $tenant = Database::row(
+                "SELECT * FROM tenants WHERE id = :id AND enabled = " . Database::bool(true),
+                [':id' => $target['tenant_id']]
+            );
+            if (!$tenant) { return false; }
+        }
+
+        $_SESSION['impersonator'] = [
+            'user' => self::user(),
+            'tenant' => self::tenant(),
+        ];
+
+        $_SESSION['user'] = [
+            'id'        => $target['id'],
+            'name'      => $target['name'],
+            'email'     => $target['email'],
+            'role'      => $target['role'],
+            'tenant_id' => $target['tenant_id'],
+            'doctor_id' => $target['doctor_id'] ?? null,
+        ];
+        $_SESSION['tenant'] = $tenant;
+
+        return true;
+    }
+
+    public static function stopImpersonating(): bool
+    {
+        if (!self::isImpersonating()) { return false; }
+
+        $_SESSION['user'] = $_SESSION['impersonator']['user'] ?? null;
+        $_SESSION['tenant'] = $_SESSION['impersonator']['tenant'] ?? null;
+        unset($_SESSION['impersonator']);
+
+        return isset($_SESSION['user']);
+    }
+
     // ── State helpers ─────────────────────────────────────────────────────
 
     public static function check(): bool
