@@ -99,12 +99,14 @@ body {
     transition: background 0.25s ease, color 0.25s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-y: auto;
 }
 
 body.clinicall-admin {
     min-height: 100vh;
     background: var(--ca-bg-accent);
     font-size: 0.95rem;
+    overflow-y: auto;
 }
 
 body.theme-auth {
@@ -160,7 +162,7 @@ body.clinicall-admin a:hover {
 }
 
 body.sidebar-open {
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
