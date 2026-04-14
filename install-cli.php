@@ -16,7 +16,7 @@ require_once CLINICALL_ROOT . '/core/helpers.php';
 require_once CLINICALL_ROOT . '/core/Database.php';
 
 $config_file = CLINICALL_ROOT . '/config.php';
-$current_cfg = require $config_file;
+$current_cfg = file_exists($config_file) ? require $config_file : ['app' => ['installed' => false]];
 
 if (($current_cfg['app']['installed'] ?? false) === true) {
     fwrite(STDOUT, "ClinicAll is already installed.\n");
