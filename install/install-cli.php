@@ -84,27 +84,31 @@ if (!file_exists($sql_file)) {
 }
 
 $sql = file_get_contents($sql_file);
-$statements = array_filter(array_map('trim', explode(';', $sql)));
 
-foreach ($statements as $stmt) {
-    if ($stmt === '') {
-        continue;
+try {
+    if ($db['driver'] === 'pgsql') {
+        Database::get()->exec('CREATE EXTENSION IF NOT EXISTS pgcrypto;');
     }
+} catch (Throwable $e) {
+    fwrite(STDOUT, "Skipping pgcrypto extension setup: " . $e->getMessage() . "\n");
+}
 
-    try {
-        Database::get()->exec($stmt . ';');
-    } catch (Throwable $e) {
-        $msg = $e->getMessage();
-        $ignore =
-            stripos($msg, 'already exists') !== false ||
-            stripos($msg, 'duplicate key') !== false ||
-            stripos($msg, 'Duplicate entry') !== false ||
-            stripos($msg, 'relation') !== false && stripos($msg, 'already exists') !== false;
+try {
+    Database::get()->exec($sql);
+} catch (Throwable $e) {
+    $msg = $e->getMessage();
+    $ignore =
+        stripos($msg, 'already exists') !== false ||
+        stripos($msg, 'duplicate key') !== false ||
+        stripos($msg, 'Duplicate entry') !== false ||
+        stripos($msg, 'multiple primary keys') !== false ||
+        stripos($msg, 'already an index') !== false ||
+        stripos($msg, 'duplicate column name') !== false ||
+        stripos($msg, 'duplicate constraint') !== false;
 
-        if (!$ignore) {
-            fwrite(STDERR, "Schema error: {$msg}\n");
-            exit(1);
-        }
+    if (!$ignore) {
+        fwrite(STDERR, "Schema error: {$msg}\n");
+        exit(1);
     }
 }
 
