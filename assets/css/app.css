@@ -1,0 +1,129 @@
+/* ClinicAll v2 — Custom Styles */
+
+/* ── Brand colors ─────────────────────────────────────────────────────── */
+:root {
+    --ca-blue:    #1a4b8c;
+    --ca-teal:    #0f7b6c;
+    --ca-green:   #27ae60;
+    --ca-red:     #e74c3c;
+    --ca-orange:  #e67e22;
+    --ca-purple:  #8e44ad;
+    --ca-indigo:  #3d5afe;
+    --ca-sidebar: #1e2e45;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────── */
+.bg-primary-custom { background: var(--ca-blue) !important; }
+
+/* ── Body & layout ────────────────────────────────────────────────────── */
+body.clinicall-admin {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f4f7fb;
+    font-size: 0.925rem;
+}
+
+body.clinicall-admin .container-fluid {
+    flex: 1;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.footer-bar { font-size: .8rem; }
+
+/* ── Stat cards ───────────────────────────────────────────────────────── */
+.stat-card { transition: transform .15s, box-shadow .15s; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.1) !important; }
+.stat-label { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: #888; margin-bottom: 4px; }
+.stat-value { font-size: 2rem; font-weight: 700; color: #1e2e45; margin-bottom: 6px; }
+.stat-link  { font-size: .8rem; color: var(--ca-blue); text-decoration: none; }
+.stat-link:hover { text-decoration: underline; }
+.stat-icon  { width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem; }
+
+/* Stat icon color combos */
+.bg-blue-soft   { background: #e8f0fe; }  .text-blue   { color: var(--ca-blue); }
+.bg-teal-soft   { background: #e0f5f1; }  .text-teal   { color: var(--ca-teal); }
+.bg-green-soft  { background: #eafaf1; }  .text-green  { color: var(--ca-green); }
+.bg-yellow-soft { background: #fef9e7; }
+.bg-indigo-soft { background: #e8eaf6; }  .text-indigo { color: var(--ca-indigo); }
+.bg-purple-soft { background: #f3e5f5; }  .text-purple { color: var(--ca-purple); }
+
+/* ── Tables ───────────────────────────────────────────────────────────── */
+.table th { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: #666; font-weight: 600; }
+.table td { vertical-align: middle; }
+.table-hover > tbody > tr:hover { background: #f0f6ff; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn-xs { padding: .2rem .5rem; font-size: .78rem; }
+
+/* ── Cards ────────────────────────────────────────────────────────────── */
+.card { border-radius: 10px; }
+.card-header { border-radius: 10px 10px 0 0 !important; }
+
+/* ── Form styling ─────────────────────────────────────────────────────── */
+.form-control:focus, .form-select:focus {
+    border-color: var(--ca-blue);
+    box-shadow: 0 0 0 3px rgba(26, 75, 140, .15);
+}
+
+/* ── Booking page — option cards ─────────────────────────────────────── */
+.booking-option-card {
+    border: 2px solid #e0e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+}
+.booking-option-card:hover {
+    border-color: var(--ca-blue);
+    box-shadow: 0 4px 16px rgba(26,75,140,.15);
+    transform: translateY(-2px);
+}
+
+/* ── Booking slot buttons ─────────────────────────────────────────────── */
+.slot-btn {
+    min-width: 72px;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+/* ── Booking step progress ────────────────────────────────────────────── */
+.step-indicator {
+    width: 2.2rem; height: 2.2rem;
+    border-radius: 50%;
+    background: #e0e8f0;
+    color: #888;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .9rem;
+    transition: background .2s, color .2s;
+}
+.step-indicator.active { background: var(--ca-blue); color: #fff; }
+.step-indicator.done   { background: var(--ca-green); color: #fff; }
+
+.step-line {
+    flex: 1; height: 2px; background: #d0dbe8; margin: 0 4px; align-self: flex-start; margin-top: 1.1rem;
+}
+
+/* ── Badges ───────────────────────────────────────────────────────────── */
+.badge { font-size: .76rem; font-weight: 500; }
+
+/* ── Action bar (legacy compat.) ─────────────────────────────────────── */
+.action_bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 16px; margin-bottom: 16px;
+    border-bottom: 1px solid #e0e8f0;
+}
+
+/* ── Alert ────────────────────────────────────────────────────────────── */
+.alert { border-radius: 8px; }
+
+/* ── Responsive table scroll hint ────────────────────────────────────── */
+.table-responsive { border-radius: 0 0 10px 10px; }
+
+/* ── Navbar active link ───────────────────────────────────────────────── */
+.navbar-dark .navbar-nav .nav-link.active {
+    background: rgba(255,255,255,.15);
+    border-radius: 6px;
+}
+
+/* ── Booking page footer ──────────────────────────────────────────────── */
+body:not(.clinicall-admin) footer { background: #f8f9fa; }

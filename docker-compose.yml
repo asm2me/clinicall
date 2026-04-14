@@ -1,0 +1,67 @@
+services:
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      installer:
+        condition: service_completed_successfully
+    ports:
+      - "8000:80"
+    environment:
+      APP_URL: http://localhost:8000
+      APP_DEBUG: "0"
+      APP_TZ: UTC
+      DB_DRIVER: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: clinicall
+      DB_USER: clinicall
+      DB_PASS: clinicall
+    volumes:
+      - .:/var/www/html
+    restart: unless-stopped
+
+  installer:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    command: php /var/www/html/install/install-cli.php
+    environment:
+      APP_NAME: ClinicAll
+      APP_URL: http://localhost:8000
+      APP_DEBUG: "0"
+      APP_TZ: UTC
+      DB_DRIVER: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: clinicall
+      DB_USER: clinicall
+      DB_PASS: clinicall
+      ORG_NAME: Default Clinic
+      ORG_SLUG: default-clinic
+      ADMIN_NAME: Administrator
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: ChangeMe123!
+    volumes:
+      - .:/var/www/html
+    restart: "no"
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: clinicall
+      POSTGRES_USER: clinicall
+      POSTGRES_PASSWORD: clinicall
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clinicall -d clinicall"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
