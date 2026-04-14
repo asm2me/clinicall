@@ -144,7 +144,7 @@ $userExists = Database::row(
 if (!$userExists) {
     Database::insert('users', [
         'id'         => generate_uuid(),
-        'tenant_id'  => $tenant_id,
+        'tenant_id'  => null,
         'name'       => $admin_name,
         'email'      => $admin_email,
         'password'   => password_hash($admin_password, PASSWORD_BCRYPT, ['cost' => 12]),
