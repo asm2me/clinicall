@@ -37,9 +37,37 @@ if ($tid) {
 require_once CLINICALL_ROOT . '/views/layout/header.php';
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0"><i class="fa fa-gauge me-2 text-primary"></i>Dashboard</h4>
-    <span class="text-muted small"><?php echo date('l, d F Y'); ?></span>
+<div class="dashboard-hero mb-4">
+    <div class="dashboard-hero__content">
+        <span class="dashboard-hero__eyebrow"><i class="fa fa-sparkles me-2"></i>Clinic overview</span>
+        <h2 class="dashboard-hero__title">Welcome back<?php echo Auth::user() ? ', ' . e(Auth::user()['name']) : ''; ?></h2>
+        <p class="dashboard-hero__subtitle">Track appointments, manage clinics, and keep the day running smoothly from one place.</p>
+        <div class="dashboard-hero__actions">
+            <?php if (Auth::can('appointment.create')): ?>
+            <a href="?page=appointment_edit" class="btn btn-primary">
+                <i class="fa fa-calendar-plus me-2"></i>New Appointment
+            </a>
+            <?php endif; ?>
+            <?php if (Auth::can('doctor.create')): ?>
+            <a href="?page=doctor_edit" class="btn btn-outline-secondary">
+                <i class="fa fa-user-doctor me-2"></i>Add Doctor
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="dashboard-hero__art" aria-hidden="true">
+        <div class="dashboard-orb dashboard-orb--lg"></div>
+        <div class="dashboard-orb dashboard-orb--sm"></div>
+        <div class="dashboard-hero__card">
+            <div class="dashboard-hero__card-icon">
+                <i class="fa fa-heart-pulse"></i>
+            </div>
+            <div>
+                <div class="dashboard-hero__card-label">Today's focus</div>
+                <div class="dashboard-hero__card-value"><?php echo (int)($stats['today'] ?? 0); ?> appointments</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Stats cards -->
@@ -48,7 +76,8 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
     <div class="col-sm-6 col-lg-3">
         <div class="card stat-card border-0 shadow-sm">
             <div class="card-body">
-                <div class="d-flex justify-content-between">
+                <div class="stat-card__pattern" aria-hidden="true"></div>
+                <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <p class="stat-label">Tenants</p>
                         <h3 class="stat-value"><?php echo $stats['tenants']; ?></h3>
@@ -141,10 +170,10 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
 
 <!-- Today's schedule -->
 <?php if ($tid): ?>
-<div class="row g-3">
+<div class="row g-3 dashboard-grid">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom d-flex justify-content-between">
+        <div class="card border-0 shadow-sm dashboard-panel">
+            <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-semibold"><i class="fa fa-calendar-day me-2"></i>Today's Appointments</h6>
                 <a href="?page=appointment_edit" class="btn btn-sm btn-primary">
                     <i class="fa fa-plus me-1"></i>New
@@ -152,9 +181,9 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
             </div>
             <div class="card-body p-0">
                 <?php if (empty($today_appts)): ?>
-                <div class="text-center py-5 text-muted">
-                    <i class="fa fa-calendar fa-2x mb-2"></i>
-                    <p>No appointments today.</p>
+                <div class="dashboard-empty text-center py-5 text-muted">
+                    <div class="dashboard-empty__icon"><i class="fa fa-calendar fa-2x"></i></div>
+                    <p class="mb-0">No appointments today.</p>
                 </div>
                 <?php else: ?>
                 <div class="table-responsive">
@@ -195,38 +224,42 @@ require_once CLINICALL_ROOT . '/views/layout/header.php';
     </div>
 
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm">
+        <div class="card border-0 shadow-sm dashboard-panel dashboard-links-card">
             <div class="card-header bg-transparent border-bottom">
                 <h6 class="mb-0 fw-semibold"><i class="fa fa-link me-2"></i>Quick Links</h6>
             </div>
             <div class="card-body">
-                <div class="d-grid gap-2">
+                <div class="dashboard-quicklinks">
                     <?php if (Auth::can('appointment.create')): ?>
-                    <a href="?page=appointment_edit" class="btn btn-outline-primary text-start">
+                    <a href="?page=appointment_edit" class="btn btn-outline-primary dashboard-quicklink text-start">
                         <i class="fa fa-plus me-2"></i>New Appointment
                     </a>
                     <?php endif; ?>
                     <?php if (Auth::can('clinic.create')): ?>
-                    <a href="?page=clinic_edit" class="btn btn-outline-secondary text-start">
+                    <a href="?page=clinic_edit" class="btn btn-outline-secondary dashboard-quicklink text-start">
                         <i class="fa fa-hospital me-2"></i>Add Clinic
                     </a>
                     <?php endif; ?>
                     <?php if (Auth::can('doctor.create')): ?>
-                    <a href="?page=doctor_edit" class="btn btn-outline-secondary text-start">
+                    <a href="?page=doctor_edit" class="btn btn-outline-secondary dashboard-quicklink text-start">
                         <i class="fa fa-user-md me-2"></i>Add Doctor
                     </a>
                     <?php endif; ?>
                     <?php if (Auth::can('schedule.create')): ?>
-                    <a href="?page=schedule_edit" class="btn btn-outline-secondary text-start">
+                    <a href="?page=schedule_edit" class="btn btn-outline-secondary dashboard-quicklink text-start">
                         <i class="fa fa-clock me-2"></i>Add Schedule
                     </a>
                     <?php endif; ?>
                     <?php $t = Auth::tenant(); if ($t): ?>
                     <a href="booking.php?t=<?php echo e($t['slug']); ?>" target="_blank"
-                       class="btn btn-outline-success text-start">
+                       class="btn btn-outline-success dashboard-quicklink text-start">
                         <i class="fa fa-external-link me-2"></i>Open Booking Page
                     </a>
                     <?php endif; ?>
+                </div>
+                <div class="dashboard-side-illustration" aria-hidden="true">
+                    <div class="dashboard-side-illustration__icon"><i class="fa fa-user-nurse"></i></div>
+                    <div class="dashboard-side-illustration__pulse"></div>
                 </div>
             </div>
         </div>
