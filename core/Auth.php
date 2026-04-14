@@ -99,7 +99,10 @@ class Auth
     public static function tenant(): ?array { return $_SESSION['tenant'] ?? null; }
 
     public static function userId(): ?string    { return self::user()['id']        ?? null; }
-    public static function tenantId(): ?string  { return self::user()['tenant_id'] ?? null; }
+    public static function tenantId(): ?string
+    {
+        return self::tenant()['id'] ?? self::user()['tenant_id'] ?? null;
+    }
     public static function role(): string       { return self::user()['role']      ?? 'staff'; }
 
     public static function isSuperAdmin(): bool { return self::role() === 'superadmin'; }
