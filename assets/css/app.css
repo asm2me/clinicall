@@ -90,7 +90,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -1076,8 +1076,8 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.36), transparent);
-    transform: translateX(-120%);
-    animation: ca-progressive-shimmer 1.8s ease-in-out infinite;
+    transform: none;
+    animation: none;
     pointer-events: none;
     opacity: 0;
 }
@@ -1100,8 +1100,8 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
-    transform: translateX(-120%);
-    animation: ca-progressive-shimmer 1.6s ease-in-out infinite;
+    transform: none;
+    animation: none;
 }
 
 .progressive-load-ready {
@@ -1115,73 +1115,44 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .progressive-fade-in {
-    animation: ca-fade-up 0.7s ease both;
+    animation: none;
 }
 
 .progressive-fade-in-fast {
-    animation: ca-fade-up 0.45s ease both;
+    animation: none;
 }
 
 .progressive-scale-in {
-    animation: ca-scale-in 0.55s ease both;
+    animation: none;
 }
 
 .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(18px) scale(0.985);
-    transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
-    will-change: opacity, transform;
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
 }
 
 .reveal-on-scroll.is-visible,
 .reveal-on-scroll.revealed,
 .reveal-on-scroll.show {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
 }
 
 .reveal-on-scroll.reveal-delay-1 {
-    transition-delay: 0.08s;
+    transition-delay: 0s;
 }
 
 .reveal-on-scroll.reveal-delay-2 {
-    transition-delay: 0.16s;
+    transition-delay: 0s;
 }
 
 .reveal-on-scroll.reveal-delay-3 {
-    transition-delay: 0.24s;
+    transition-delay: 0s;
 }
 
-@keyframes ca-progressive-shimmer {
-    0% {
-        transform: translateX(-120%);
-    }
-    100% {
-        transform: translateX(120%);
-    }
-}
-
-@keyframes ca-fade-up {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes ca-scale-in {
-    from {
-        opacity: 0;
-        transform: scale(0.96);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+/* Animations intentionally disabled to preserve normal scrolling behavior. */
 
 [dir="rtl"] .marketing-showcase::before {
     inset-inline-end: auto;
