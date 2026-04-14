@@ -38,6 +38,7 @@ $db = [
 $app_name = getenv('APP_NAME') ?: 'ClinicAll';
 $app_url = rtrim(getenv('APP_URL') ?: 'http://localhost:8000', '/');
 $app_debug = filter_var(getenv('APP_DEBUG') ?: '0', FILTER_VALIDATE_BOOLEAN);
+$app_debug_export = $app_debug ? 'true' : 'false';
 $app_tz = getenv('APP_TZ') ?: 'UTC';
 
 $org_name = trim(getenv('ORG_NAME') ?: 'Default Clinic');
@@ -169,7 +170,7 @@ return [
     'app' => [
         'name'      => '{$app_name}',
         'url'       => '{$app_url}',
-        'debug'     => {$app_debug},
+        'debug'     => {$app_debug_export},
         'timezone'  => '{$app_tz}',
         'installed' => true,
     ],
