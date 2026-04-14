@@ -7,5 +7,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . /var/www/html
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN chown -R www-data:www-data /var/www/html
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chown -R www-data:www-data /var/www/html

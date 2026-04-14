@@ -24,8 +24,7 @@ services:
       ADMIN_PASSWORD: ChangeMe123!
     volumes:
       - .:/var/www/html
-    command: >
-      sh -c "php /var/www/html/install-cli.php && exec apache2-foreground"
+    entrypoint: ["/usr/local/bin/docker-entrypoint.sh"]
     restart: unless-stopped
 
   db:
