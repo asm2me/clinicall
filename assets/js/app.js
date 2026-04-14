@@ -6,8 +6,8 @@
 
 var ClinicAllTheme = (function () {
     var STORAGE_KEY = 'clinicall-theme';
-    var DEFAULT_THEME = 'classic';
-    var THEMES = ['classic', 'midnight'];
+    var DEFAULT_THEME = 'light';
+    var THEMES = ['light', 'dark'];
 
     function getStoredTheme() {
         try {
@@ -23,17 +23,17 @@ var ClinicAllTheme = (function () {
         document.documentElement.setAttribute('data-theme', safeTheme);
 
         document.querySelectorAll('[data-theme-label]').forEach(function (label) {
-            label.textContent = safeTheme === 'midnight' ? 'Midnight' : 'Classic';
+            label.textContent = safeTheme === 'dark' ? 'Dark' : 'Light';
         });
 
         document.querySelectorAll('[data-theme-icon]').forEach(function (icon) {
             icon.classList.remove('fa-moon', 'fa-sun');
-            icon.classList.add(safeTheme === 'midnight' ? 'fa-sun' : 'fa-moon');
+            icon.classList.add(safeTheme === 'dark' ? 'fa-sun' : 'fa-moon');
         });
 
         document.querySelectorAll('[data-theme-toggle]').forEach(function (toggle) {
-            toggle.setAttribute('aria-pressed', safeTheme === 'midnight' ? 'true' : 'false');
-            toggle.setAttribute('title', safeTheme === 'midnight' ? 'Switch to Classic theme' : 'Switch to Midnight theme');
+            toggle.setAttribute('aria-pressed', safeTheme === 'dark' ? 'true' : 'false');
+            toggle.setAttribute('title', safeTheme === 'dark' ? 'Switch to Light theme' : 'Switch to Dark theme');
         });
 
         try {
@@ -44,7 +44,7 @@ var ClinicAllTheme = (function () {
     }
 
     function toggleTheme() {
-        applyTheme(getStoredTheme() === 'midnight' ? 'classic' : 'midnight');
+        applyTheme(getStoredTheme() === 'dark' ? 'light' : 'dark');
     }
 
     function initSidebarToggle() {
