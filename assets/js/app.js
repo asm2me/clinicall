@@ -108,95 +108,20 @@ var ClinicAllTheme = (function () {
         page.classList.add('progressive-load');
 
         var skeletons = document.querySelectorAll('.progressive-load-skeleton');
-        skeletons.forEach(function (el, index) {
-            window.setTimeout(function () {
-                el.classList.add('progressive-load-hidden');
-            }, 220 + index * 120);
+        skeletons.forEach(function (el) {
+            el.classList.add('progressive-load-hidden');
         });
 
-        window.setTimeout(function () {
-            page.classList.add('progressive-load-ready');
-        }, 260);
+        page.classList.add('progressive-load-ready');
 
         var reveals = document.querySelectorAll('.reveal-on-scroll');
-        if (!reveals.length) {
-            return;
-        }
-
-        if (!('IntersectionObserver' in window)) {
-            reveals.forEach(function (el) {
-                el.classList.add('is-visible');
-            });
-            return;
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.14,
-            rootMargin: '0px 0px -40px 0px'
-        });
-
         reveals.forEach(function (el) {
-            observer.observe(el);
+            el.classList.add('is-visible');
         });
     }
 
     function initWheelPassthrough() {
-        var scrollSelectors = '.card, .accordion-item, .dropdown-menu, .marketing-showcase, .marketing-section, .marketing-pricing, .marketing-faq, .marketing-contact, .marketing-downloads, .marketing-api';
-
-        function canScrollMore(el, deltaY) {
-            if (!el) {
-                return false;
-            }
-
-            var style = window.getComputedStyle(el);
-            var overflowY = style.overflowY;
-            var isScrollable = overflowY === 'auto' || overflowY === 'scroll';
-            if (!isScrollable || el.scrollHeight <= el.clientHeight) {
-                return false;
-            }
-
-            if (deltaY > 0) {
-                return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
-            }
-
-            if (deltaY < 0) {
-                return el.scrollTop > 0;
-            }
-
-            return false;
-        }
-
-        document.addEventListener('wheel', function (event) {
-            var target = event.target;
-            var card = target && target.closest ? target.closest(scrollSelectors) : null;
-            if (!card) {
-                return;
-            }
-
-            var node = event.target;
-            while (node && node !== document.body) {
-                if (canScrollMore(node, event.deltaY)) {
-                    return;
-                }
-                node = node.parentElement;
-            }
-
-            if (window.scrollY !== undefined) {
-                window.scrollBy({
-                    top: event.deltaY,
-                    left: 0,
-                    behavior: 'auto'
-                });
-                event.preventDefault();
-            }
-        }, { passive: false });
+        return;
     }
 
     function init() {
