@@ -38,18 +38,20 @@ $menuSecondary = [
     ['href' => '#contact', 'label' => $tr('nav.contact', 'Contact')],
 ];
 
-$loginUrl = $cfg['login_url'] ?? ($cfg['signin_url'] ?? '#login');
-if (strpos($loginUrl, '?') === false) {
-    $loginUrl .= '?lang=' . rawurlencode($currentLang);
-} else {
-    $loginUrl .= '&lang=' . rawurlencode($currentLang);
+$loginUrl = $cfg['login_url'] ?? ($cfg['signin_url'] ?? '?page=login');
+if (strpos($loginUrl, 'page=') === false && str_starts_with($loginUrl, '?') === false && str_starts_with($loginUrl, 'http') === false && str_starts_with($loginUrl, '/') === false) {
+    $loginUrl = '?page=login';
+}
+if (strpos($loginUrl, 'lang=') === false) {
+    $loginUrl .= (strpos($loginUrl, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($currentLang);
 }
 
-$signupUrl = $cfg['signup_url'] ?? '#register';
-if (strpos($signupUrl, '?') === false) {
-    $signupUrl .= '?lang=' . rawurlencode($currentLang);
-} else {
-    $signupUrl .= '&lang=' . rawurlencode($currentLang);
+$signupUrl = $cfg['signup_url'] ?? '?page=login';
+if (strpos($signupUrl, 'page=') === false && str_starts_with($signupUrl, '?') === false && str_starts_with($signupUrl, 'http') === false && str_starts_with($signupUrl, '/') === false) {
+    $signupUrl = '?page=login';
+}
+if (strpos($signupUrl, 'lang=') === false) {
+    $signupUrl .= (strpos($signupUrl, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($currentLang);
 }
 
 $contactPhone = $cfg['support_phone'] ?? $tr('contact.phone', '+1 (555) 020-2024');
@@ -254,7 +256,7 @@ $finalSecondary = $tr('home.final.secondary', 'Review plans');
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="assets/css/app.css" rel="stylesheet">
 </head>
-<body class="marketing-page">
+<body class="marketing-page" style="overflow-x:hidden;">
     <div class="marketing-topbar py-2 border-bottom bg-body-tertiary">
         <div class="container-fluid px-3 px-lg-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div class="d-flex flex-wrap align-items-center gap-2 small text-body-secondary">
