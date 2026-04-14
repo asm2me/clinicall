@@ -147,6 +147,58 @@ var ClinicAllTheme = (function () {
         });
     }
 
+    function initWheelPassthrough() {
+        var scrollSelectors = '.card, .accordion-item, .dropdown-menu, .marketing-showcase, .marketing-section, .marketing-pricing, .marketing-faq, .marketing-contact, .marketing-downloads, .marketing-api';
+
+        function canScrollMore(el, deltaY) {
+            if (!el) {
+                return false;
+            }
+
+            var style = window.getComputedStyle(el);
+            var overflowY = style.overflowY;
+            var isScrollable = overflowY === 'auto' || overflowY === 'scroll';
+            if (!isScrollable || el.scrollHeight <= el.clientHeight) {
+                return false;
+            }
+
+            if (deltaY > 0) {
+                return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+            }
+
+            if (deltaY < 0) {
+                return el.scrollTop > 0;
+            }
+
+            return false;
+        }
+
+        document.addEventListener('wheel', function (event) {
+            var target = event.target;
+            var card = target && target.closest ? target.closest(scrollSelectors) : null;
+            if (!card) {
+                return;
+            }
+
+            var node = event.target;
+            while (node && node !== document.body) {
+                if (canScrollMore(node, event.deltaY)) {
+                    return;
+                }
+                node = node.parentElement;
+            }
+
+            if (window.scrollY !== undefined) {
+                window.scrollBy({
+                    top: event.deltaY,
+                    left: 0,
+                    behavior: 'auto'
+                });
+                event.preventDefault();
+            }
+        }, { passive: false });
+    }
+
     function init() {
         applyTheme(getStoredTheme());
 
@@ -158,6 +210,7 @@ var ClinicAllTheme = (function () {
 
         initSidebarToggle();
         initProgressiveLoad();
+        initWheelPassthrough();
     }
 
     return {
