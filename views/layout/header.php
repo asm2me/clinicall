@@ -32,6 +32,11 @@
             <?php endif; ?>
         </div>
 
+        <button type="button" class="classic-menu-toggle d-lg-none" data-sidebar-toggle aria-expanded="false" aria-controls="classic-sidebar">
+            <i class="fa fa-bars"></i>
+            <span>Menu</span>
+        </button>
+
         <div class="classic-topbar-actions">
             <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
                 <i class="fa fa-moon" data-theme-icon></i>
@@ -104,7 +109,7 @@
 </nav>
 
 <div class="classic-shell">
-    <aside class="classic-sidebar">
+    <aside class="classic-sidebar" id="classic-sidebar">
         <div class="classic-sidebar-title">Navigation</div>
         <ul class="classic-sidebar-nav">
             <li>

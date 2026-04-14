@@ -47,6 +47,58 @@ var ClinicAllTheme = (function () {
         applyTheme(getStoredTheme() === 'midnight' ? 'classic' : 'midnight');
     }
 
+    function initSidebarToggle() {
+        var body = document.body;
+        var toggles = document.querySelectorAll('[data-sidebar-toggle]');
+        var sidebar = document.getElementById('classic-sidebar');
+
+        if (!toggles.length || !sidebar) {
+            return;
+        }
+
+        function syncState(isOpen) {
+            body.classList.toggle('sidebar-open', isOpen);
+            toggles.forEach(function (toggle) {
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+        }
+
+        toggles.forEach(function (toggle) {
+            toggle.addEventListener('click', function () {
+                syncState(!body.classList.contains('sidebar-open'));
+            });
+        });
+
+        sidebar.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 992) {
+                    syncState(false);
+                }
+            });
+        });
+
+        document.addEventListener('click', function (event) {
+            if (window.innerWidth >= 992 || !body.classList.contains('sidebar-open')) {
+                return;
+            }
+
+            var clickedInsideSidebar = sidebar.contains(event.target);
+            var clickedToggle = Array.prototype.some.call(toggles, function (toggle) {
+                return toggle.contains(event.target);
+            });
+
+            if (!clickedInsideSidebar && !clickedToggle) {
+                syncState(false);
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 992) {
+                syncState(false);
+            }
+        });
+    }
+
     function init() {
         applyTheme(getStoredTheme());
 
@@ -55,6 +107,8 @@ var ClinicAllTheme = (function () {
                 toggleTheme();
             });
         });
+
+        initSidebarToggle();
     }
 
     return {
