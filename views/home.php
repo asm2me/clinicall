@@ -25,12 +25,15 @@ $topLanguages = [
     'de' => $tr('language.de', 'Deutsch'),
 ];
 
-$navItems = [
+$menuPrimary = [
     ['href' => '#features', 'label' => $tr('nav.features', 'Features')],
-    ['href' => '#how-it-works', 'label' => $tr('nav.how_it_works', 'How it works')],
     ['href' => '#integrations', 'label' => $tr('nav.integrations', 'APIs & integrations')],
-    ['href' => '#downloads', 'label' => $tr('nav.downloads', 'Downloads')],
     ['href' => '#pricing', 'label' => $tr('nav.pricing', 'Pricing')],
+];
+
+$menuSecondary = [
+    ['href' => '#how-it-works', 'label' => $tr('nav.how_it_works', 'How it works')],
+    ['href' => '#downloads', 'label' => $tr('nav.downloads', 'Downloads')],
     ['href' => '#faq', 'label' => $tr('nav.faq', 'FAQ')],
     ['href' => '#contact', 'label' => $tr('nav.contact', 'Contact')],
 ];
@@ -272,14 +275,27 @@ $finalSecondary = $tr('home.final.secondary', 'Review plans');
 
     <header class="marketing-nav border-bottom bg-body">
         <div class="container-fluid px-3 px-lg-4">
-            <div class="d-flex align-items-center justify-content-between py-3 gap-3">
-                <a class="navbar-brand fw-bold text-decoration-none" href="<?php echo htmlspecialchars($baseLangUrl($currentLang), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($appName, ENT_QUOTES, 'UTF-8'); ?></a>
-                <nav class="d-none d-lg-flex align-items-center gap-3 flex-wrap">
-                    <?php foreach ($navItems as $item): ?>
-                        <a class="text-decoration-none text-body-secondary" href="<?php echo htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8'); ?></a>
+            <div class="marketing-nav-inner py-3">
+                <a class="marketing-brand text-decoration-none" href="<?php echo htmlspecialchars($baseLangUrl($currentLang), ENT_QUOTES, 'UTF-8'); ?>">
+                    <span class="marketing-brand__mark"><i class="fa-solid fa-wave-square"></i></span>
+                    <span class="marketing-brand__text"><?php echo htmlspecialchars($appName, ENT_QUOTES, 'UTF-8'); ?></span>
+                </a>
+
+                <nav class="marketing-menu d-none d-xl-flex" aria-label="Primary">
+                    <?php foreach ($menuPrimary as $item): ?>
+                        <a class="marketing-menu__link" href="<?php echo htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8'); ?></a>
                     <?php endforeach; ?>
                 </nav>
-                <a class="btn btn-outline-primary btn-sm ms-auto" href="<?php echo htmlspecialchars($loginUrl, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($tr('topbar.login', 'Login'), ENT_QUOTES, 'UTF-8'); ?></a>
+
+                <nav class="marketing-menu marketing-menu--secondary d-none d-lg-flex" aria-label="Secondary">
+                    <?php foreach ($menuSecondary as $item): ?>
+                        <a class="marketing-menu__link" href="<?php echo htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8'); ?></a>
+                    <?php endforeach; ?>
+                </nav>
+
+                <div class="marketing-nav-actions">
+                    <a class="btn btn-outline-primary btn-sm" href="<?php echo htmlspecialchars($loginUrl, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($tr('topbar.login', 'Login'), ENT_QUOTES, 'UTF-8'); ?></a>
+                </div>
             </div>
         </div>
     </header>
@@ -307,10 +323,10 @@ $finalSecondary = $tr('home.final.secondary', 'Review plans');
                             <div class="card-body p-4 p-lg-5">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <div>
-                                        <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($tr('home.dashboard.label', 'Live overview'), ENT_QUOTES, 'UTF-8'); ?></div>
-                                        <div class="fw-semibold"><?php echo htmlspecialchars($tr('home.dashboard.title', 'Clinic performance snapshot'), ENT_QUOTES, 'UTF-8'); ?></div>
+                                        <div class="text-uppercase small text-body-secondary"><?php echo htmlspecialchars($tr('home.hero.panel_label', 'Live system'), ENT_QUOTES, 'UTF-8'); ?></div>
+                                        <div class="fw-semibold"><?php echo htmlspecialchars($tr('home.hero.panel_title', 'Clinic activity snapshot'), ENT_QUOTES, 'UTF-8'); ?></div>
                                     </div>
-                                    <span class="badge text-bg-success-subtle text-success"><?php echo htmlspecialchars($tr('home.dashboard.live', 'Live'), ENT_QUOTES, 'UTF-8'); ?></span>
+                                    <span class="badge text-bg-success-subtle text-success"><?php echo htmlspecialchars($tr('home.hero.panel_live', 'Live'), ENT_QUOTES, 'UTF-8'); ?></span>
                                 </div>
                                 <div class="row g-3">
                                     <?php foreach ($heroStats as $stat): ?>
