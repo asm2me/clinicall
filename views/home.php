@@ -46,12 +46,9 @@ if (strpos($loginUrl, 'lang=') === false) {
     $loginUrl .= (strpos($loginUrl, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($currentLang);
 }
 
-$signupUrl = $cfg['signup_url'] ?? '?page=login';
-if (strpos($signupUrl, 'page=') === false && str_starts_with($signupUrl, '?') === false && str_starts_with($signupUrl, 'http') === false && str_starts_with($signupUrl, '/') === false) {
-    $signupUrl = '?page=login';
-}
+$signupUrl = '?page=subscribe';
 if (strpos($signupUrl, 'lang=') === false) {
-    $signupUrl .= (strpos($signupUrl, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($currentLang);
+    $signupUrl .= '&lang=' . rawurlencode($currentLang);
 }
 
 $contactPhone = $cfg['support_phone'] ?? $tr('contact.phone', '+1 (555) 020-2024');
@@ -217,7 +214,7 @@ $faqs = [
 $heroBadge = $tr('home.hero.badge', 'ClinicAll platform');
 $heroTitle = $tr('home.hero.title', 'Modern care coordination for every clinic');
 $heroText = $tr('home.hero.text', 'ClinicAll brings communication, scheduling, integrations, and patient support into one elegant platform.');
-$heroPrimary = $tr('home.hero.primary', 'Start free');
+$heroPrimary = $tr('home.hero.primary', 'Start free trial');
 $heroSecondary = $tr('home.hero.secondary', 'View pricing');
 $trustTitle = $tr('home.trust.title', 'Trusted by care teams');
 $trustText = $tr('home.trust.text', 'Built for clinics, hospitals, and healthcare partners.');
@@ -312,7 +309,7 @@ $finalSecondary = $tr('home.final.secondary', 'Review plans');
                         <p class="lead text-body-secondary mb-4"><?php echo htmlspecialchars($heroText, ENT_QUOTES, 'UTF-8'); ?></p>
                         <div class="d-flex flex-wrap gap-3 mb-4">
                             <a href="<?php echo htmlspecialchars($signupUrl, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-primary btn-lg"><?php echo htmlspecialchars($heroPrimary, ENT_QUOTES, 'UTF-8'); ?></a>
-                            <a href="#pricing" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($heroSecondary, ENT_QUOTES, 'UTF-8'); ?></a>
+                            <a href="?page=subscribe&lang=<?php echo htmlspecialchars($currentLang, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($tr('subscribe.back_to_home', 'Back to homepage'), ENT_QUOTES, 'UTF-8'); ?></a>
                         </div>
                         <div class="marketing-logos d-flex flex-wrap gap-2 align-items-center">
                             <?php foreach ($trustLogos as $logo): ?>
@@ -550,7 +547,7 @@ $finalSecondary = $tr('home.final.secondary', 'Review plans');
                 <p class="text-body-secondary mb-4"><?php echo htmlspecialchars($finalText, ENT_QUOTES, 'UTF-8'); ?></p>
                 <div class="d-flex flex-wrap justify-content-center gap-3">
                     <a href="<?php echo htmlspecialchars($signupUrl, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-primary btn-lg"><?php echo htmlspecialchars($finalPrimary, ENT_QUOTES, 'UTF-8'); ?></a>
-                    <a href="#pricing" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($finalSecondary, ENT_QUOTES, 'UTF-8'); ?></a>
+                    <a href="?page=subscribe&lang=<?php echo htmlspecialchars($currentLang, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-outline-secondary btn-lg"><?php echo htmlspecialchars($tr('subscribe.back_to_home', 'Back to homepage'), ENT_QUOTES, 'UTF-8'); ?></a>
                 </div>
             </div>
         </section>

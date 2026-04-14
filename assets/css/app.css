@@ -112,6 +112,44 @@ body.theme-auth {
     color: var(--ca-login-text);
 }
 
+body.theme-auth .login-shell {
+    min-height: 100vh;
+    max-width: 100%;
+}
+
+body.theme-auth .login-box {
+    width: 100%;
+    max-width: 26rem;
+}
+
+body.theme-auth .login-box .card {
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 60px rgba(2, 6, 23, 0.22);
+}
+
+body.theme-auth .login-box .card-body {
+    padding: 2rem;
+}
+
+body.theme-auth .login-box h2 {
+    font-size: clamp(1.6rem, 4vw, 2rem);
+}
+
+@media (max-width: 575.98px) {
+    body.theme-auth .login-shell {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    body.theme-auth .login-box {
+        max-width: 100%;
+    }
+
+    body.theme-auth .login-box .card-body {
+        padding: 1.35rem;
+    }
+}
+
 body.clinicall-admin a {
     color: var(--ca-blue);
     text-decoration: none;

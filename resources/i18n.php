@@ -137,6 +137,9 @@ return [
         'cta.subtitle' => 'Log in to manage your workspace or explore the public homepage to see how the platform fits your team.',
         'cta.primary_cta' => 'Log in now',
         'cta.secondary_cta' => 'Explore the homepage',
+        'subscribe.title' => 'Choose a plan that fits your clinic today',
+        'subscribe.subtitle' => 'Review our available plans and continue to the login page to complete your subscription setup.',
+        'subscribe.back_to_home' => 'Back to homepage',
 
         'contact.phone' => '+1 (555) 020-2024',
         'contact.email' => 'support@clinicall.local',
@@ -390,6 +393,9 @@ return [
         'cta.subtitle' => 'سجّل الدخول لإدارة مساحة عملك أو استعرض الصفحة العامة لترى كيف تناسب المنصة فريقك.',
         'cta.primary_cta' => 'تسجيل الدخول الآن',
         'cta.secondary_cta' => 'استعرض الصفحة الرئيسية',
+        'subscribe.title' => 'اختر الباقة المناسبة لعيادتك اليوم',
+        'subscribe.subtitle' => 'راجع الباقات المتاحة وانتقل إلى صفحة تسجيل الدخول لإكمال إعداد الاشتراك.',
+        'subscribe.back_to_home' => 'العودة إلى الصفحة الرئيسية',
 
         'contact.phone' => '+1 (555) 020-2024',
         'contact.email' => 'support@clinicall.local',
@@ -643,6 +649,9 @@ return [
         'cta.subtitle' => 'Connectez-vous pour gérer votre espace de travail ou explorez la page publique pour voir comment la plateforme s’adapte à votre équipe.',
         'cta.primary_cta' => 'Se connecter maintenant',
         'cta.secondary_cta' => 'Explorer la page d’accueil',
+        'subscribe.title' => 'Choisissez une formule adaptée à votre clinique aujourd’hui',
+        'subscribe.subtitle' => 'Consultez nos formules disponibles puis connectez-vous pour finaliser votre abonnement.',
+        'subscribe.back_to_home' => 'Retour à l’accueil',
 
         'contact.phone' => '+1 (555) 020-2024',
         'contact.email' => 'support@clinicall.local',
@@ -896,6 +905,9 @@ return [
         'cta.subtitle' => 'Melden Sie sich an, um Ihren Arbeitsbereich zu verwalten, oder sehen Sie sich zuerst die öffentliche Seite an, um zu prüfen, wie die Plattform zu Ihrem Team passt.',
         'cta.primary_cta' => 'Jetzt anmelden',
         'cta.secondary_cta' => 'Startseite ansehen',
+        'subscribe.title' => 'Wählen Sie heute den passenden Plan für Ihre Praxis',
+        'subscribe.subtitle' => 'Prüfen Sie die verfügbaren Pläne und melden Sie sich an, um die Einrichtung Ihres Abonnements abzuschließen.',
+        'subscribe.back_to_home' => 'Zur Startseite',
 
         'contact.phone' => '+1 (555) 020-2024',
         'contact.email' => 'support@clinicall.local',

@@ -107,9 +107,16 @@ if ($page === 'home') {
     exit;
 }
 
+$routes['subscribe'] = 'views/subscribe.php';
+
 // Login page (no auth needed)
 if ($page === 'login') {
     require_once __DIR__ . '/views/login.php';
+    exit;
+}
+
+if ($page === 'subscribe') {
+    require_once __DIR__ . '/views/subscribe.php';
     exit;
 }
 
