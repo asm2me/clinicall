@@ -6,14 +6,14 @@ services:
       POSTGRES_USER: clinicall
       POSTGRES_PASSWORD: clinicall
     ports:
-      - "5433:5432"
+      - "55432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6380:6379"
+      - "56379:6379"
 
   minio:
     image: minio/minio:latest
@@ -22,8 +22,8 @@ services:
       MINIO_ROOT_USER: clinicall
       MINIO_ROOT_PASSWORD: clinicallsecret
     ports:
-      - "9001:9001"
-      - "9002:9000"
+      - "19001:9001"
+      - "19000:9000"
     volumes:
       - minio_data:/data
 
