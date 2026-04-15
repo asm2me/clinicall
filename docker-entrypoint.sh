@@ -2,7 +2,7 @@
 set -e
 
 if [ ! -f /var/www/html/config.php ]; then
-  cat > /var/www/html/config.php <<'PHP'
+  cat > /var/www/html/config.php <<PHP
 <?php
 return [
     'db' => [
@@ -16,7 +16,7 @@ return [
     ],
     'app' => [
         'name'      => getenv('APP_NAME') ?: 'ClinicAll',
-        'url'       => getenv('APP_URL') ?: 'http://localhost:8000',
+        'url'       => getenv('APP_URL') ?: 'http://localhost',
         'debug'     => filter_var(getenv('APP_DEBUG') ?: '0', FILTER_VALIDATE_BOOLEAN),
         'timezone'  => getenv('APP_TZ') ?: 'UTC',
         'installed' => false,
@@ -24,11 +24,12 @@ return [
     'session' => [
         'name'     => 'clinicall_sess',
         'lifetime' => 7200,
-        'secure'   => false,
+        'secure'   => filter_var(getenv('SESSION_SECURE') ?: '0', FILTER_VALIDATE_BOOLEAN),
     ],
 ];
 PHP
 fi
 
 php /var/www/html/install-cli.php
-exec apache2-foreground
+
+exec php-fpm -F
