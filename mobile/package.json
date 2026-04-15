@@ -1,0 +1,11 @@
+{
+  "name": "clinicall-mobile",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"Mobile scaffold placeholder\"",
+    "build": "echo \"Mobile scaffold placeholder\"",
+    "lint": "echo \"Mobile scaffold placeholder\""
+  }
+}

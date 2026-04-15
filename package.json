@@ -1,25 +1,16 @@
 {
-  "name": "clinicall-monorepo",
+  "name": "clinicall-saas",
   "private": true,
-  "packageManager": "pnpm@9.12.3",
-  "scripts": {
-    "build": "pnpm -r --if-present build",
-    "dev": "pnpm -r --parallel --if-present dev",
-    "lint": "pnpm -r --if-present lint",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "typecheck": "pnpm -r --if-present typecheck",
-    "check": "pnpm lint && pnpm typecheck && pnpm format:check"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.13.0",
-    "@typescript-eslint/parser": "^8.13.0",
-    "eslint": "^9.14.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.3"
-  },
+  "version": "0.0.0",
+  "description": "Multi-tenant clinic SaaS platform workspace",
   "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "backend",
+    "web",
+    "mobile"
+  ],
+  "scripts": {
+    "dev": "echo \"Workspace bootstrap only\"",
+    "build": "echo \"Workspace bootstrap only\"",
+    "lint": "echo \"Workspace bootstrap only\""
+  }
 }

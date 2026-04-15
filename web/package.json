@@ -1,0 +1,11 @@
+{
+  "name": "clinicall-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"Web scaffold placeholder\"",
+    "build": "echo \"Web scaffold placeholder\"",
+    "lint": "echo \"Web scaffold placeholder\""
+  }
+}
