@@ -6,50 +6,59 @@ services:
       POSTGRES_USER: clinicall
       POSTGRES_PASSWORD: clinicall
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U clinicall -d clinicall"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes"]
+      - "6380:6379"
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: clinicall
+      MINIO_ROOT_PASSWORD: clinicallsecret
+    ports:
+      - "9001:9001"
+      - "9002:9000"
     volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - minio_data:/data
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set local http://minio:9000 clinicall clinicallsecret; do sleep 2; done &&
+      mc mb --ignore-existing local/clinicall &&
+      exit 0
+      "
 
   backend:
     image: php:8.3-cli
     working_dir: /app
+    depends_on:
+      - postgres
+      - redis
+      - minio-init
     volumes:
       - ./:/app
-    command: sh -c "php backend/artisan"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+    command: sh -c "php backend/artisan serve --host=0.0.0.0 --port=8000"
     ports:
       - "8000:8000"
 
   web:
     image: node:20-alpine
     working_dir: /app
-    volumes:
-      - ./:/app
-    command: sh -c "npm run dev --workspace=web"
     depends_on:
       - backend
+    volumes:
+      - ./:/app
+    command: sh -c "npm run dev --workspace=web -- --hostname 0.0.0.0 --port 3000"
     ports:
       - "3001:3000"
 
@@ -58,8 +67,11 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
-    command: sh -c "npm run dev --workspace=mobile"
+    command: sh -c "npm run dev --workspace=mobile -- --host 0.0.0.0"
+    ports:
+      - "8081:8081"
+      - "19002:19002"
 
 volumes:
   postgres_data:
-  redis_data:
+  minio_data:
