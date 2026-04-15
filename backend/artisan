@@ -1,4 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-echo "Laravel scaffold placeholder\n";
+declare(strict_types=1);
+
+echo "ClinicAll backend bootstrap placeholder\n";
+echo "Laravel implementation will extend this entrypoint within the backend workspace.\n";

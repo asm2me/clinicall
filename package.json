@@ -1,16 +1,26 @@
 {
   "name": "clinicall-saas",
   "private": true,
-  "version": "0.0.0",
-  "description": "Multi-tenant clinic SaaS platform workspace",
+  "version": "0.1.0",
+  "description": "Production monorepo for the ClinicAll multi-tenant clinic SaaS platform",
   "workspaces": [
     "backend",
     "web",
     "mobile"
   ],
   "scripts": {
-    "dev": "echo \"Workspace bootstrap only\"",
-    "build": "echo \"Workspace bootstrap only\"",
-    "lint": "echo \"Workspace bootstrap only\""
+    "dev": "npm run dev --workspace=backend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:web": "npm run dev --workspace=web",
+    "dev:mobile": "npm run dev --workspace=mobile",
+    "build": "npm run build --workspace=web && npm run build --workspace=mobile",
+    "build:backend": "composer install --working-dir=backend --no-interaction --no-progress",
+    "lint": "npm run lint --workspace=web && npm run lint --workspace=mobile",
+    "test": "npm run test --workspace=backend",
+    "bootstrap": "echo "ClinicAll workspace is bootstrapped. Install dependencies in each workspace.""
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }

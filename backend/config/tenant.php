@@ -1,31 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-    'public_tables' => [
-        'tenants',
-        'domains',
-        'plans',
-        'subscriptions',
-        'feature_flags',
+    'resolver' => [
+        'header' => 'X-Tenant-Id',
+        'query' => 'tenant_id',
+        'route' => 'tenant',
     ],
-    'tenant_tables' => [
-        'users',
-        'doctors',
-        'patients',
-        'appointments',
-        'schedules',
-        'invoices',
-        'services',
-        'settings',
-        'website_pages',
-    ],
-    'middleware_aliases' => [
-        'resolve' => 'tenant.resolve',
-        'enforce' => 'tenant.enforce',
-        'scope' => 'tenant.scope',
-    ],
-    'domain_patterns' => [
-        'subdomain' => '{tenant}.platform.com',
-        'custom_domain' => '{domain}',
+    'model' => App\Models\Tenant::class,
+    'statuses' => [
+        'active',
+        'inactive',
+        'suspended',
     ],
 ];

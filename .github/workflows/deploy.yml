@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Build verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Root build
+        run: npm run build
+
+      - name: Web build
+        run: npm run build --workspace=web
+
+      - name: Mobile build
+        run: npm run build --workspace=mobile
+
+      - name: Compose config validation
+        run: docker compose config

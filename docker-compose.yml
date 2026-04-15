@@ -1,10 +1,44 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: clinicall
+      POSTGRES_USER: clinicall
+      POSTGRES_PASSWORD: clinicall
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clinicall -d clinicall"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     image: php:8.3-cli
     working_dir: /app
     volumes:
       - ./:/app
     command: sh -c "php backend/artisan"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "8000:8000"
 
@@ -14,6 +48,8 @@ services:
     volumes:
       - ./:/app
     command: sh -c "npm run dev --workspace=web"
+    depends_on:
+      - backend
     ports:
       - "3001:3000"
 
@@ -23,3 +59,7 @@ services:
     volumes:
       - ./:/app
     command: sh -c "npm run dev --workspace=mobile"
+
+volumes:
+  postgres_data:
+  redis_data:

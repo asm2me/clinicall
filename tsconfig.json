@@ -4,10 +4,20 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@clinicall/*": [
+        "shared/*"
+      ]
+    }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
   ]
 }
