@@ -47,7 +47,7 @@ Use these values in the backend environment:
 ## Running the stack
 
 ```bash
-docker compose up -d postgres redis minio minio-init
+docker compose up -d postgres redis minio
 docker compose up -d backend web mobile
 ```
 
