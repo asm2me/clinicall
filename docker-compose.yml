@@ -70,14 +70,15 @@ services:
       NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
       PNPM_HOME: /pnpm
       PATH: /pnpm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PORT: 3001
     ports:
-      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./:/workspace
       - pnpm_store:/pnpm
     command: >
       sh -lc "corepack enable && corepack prepare pnpm@9.12.3 --activate &&
-      pnpm install && pnpm --filter @clinicall/web dev"
+      pnpm install && pnpm --filter @clinicall/web dev -- --port 3001"
 
   mobile:
     image: node:20-bullseye
