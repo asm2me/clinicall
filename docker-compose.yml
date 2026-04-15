@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   backend:
     image: php:8.3-cli
@@ -17,7 +15,7 @@ services:
       - ./:/app
     command: sh -c "npm run dev --workspace=web"
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
   mobile:
     image: node:20-alpine
