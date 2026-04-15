@@ -17,7 +17,7 @@
     "build:backend": "composer install --working-dir=backend --no-interaction --no-progress",
     "lint": "npm run lint --workspace=web && npm run lint --workspace=mobile",
     "test": "npm run test --workspace=backend",
-    "bootstrap": "echo "ClinicAll workspace is bootstrapped. Install dependencies in each workspace.""
+    "bootstrap": "echo \"ClinicAll workspace is bootstrapped. Install dependencies in each workspace.\""
   },
   "engines": {
     "node": ">=20.0.0",
