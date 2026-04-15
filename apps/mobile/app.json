@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Clinicall Mobile",
+    "slug": "clinicall-mobile",
+    "scheme": "clinicall",
+    "platforms": ["ios", "android", "web"],
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "plugins": [],
+    "extra": {
+      "apiBaseUrl": "https://api.clinicall.local/api/v1"
+    }
+  }
+}
