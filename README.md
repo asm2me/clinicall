@@ -29,6 +29,51 @@ Production-oriented monorepo foundation for the Clinicall SaaS platform.
 - `pnpm format:check` - verify formatting without writing changes
 - `pnpm check` - run lint, typecheck, and formatting checks
 
+## How to run
+
+If `pnpm` is not installed on your machine:
+
+### Option 1: Enable Corepack
+```bash
+corepack enable
+corepack prepare pnpm@9.12.3 --activate
+```
+
+Then install dependencies:
+```bash
+pnpm install
+```
+
+### Option 2: Use npm to install pnpm globally
+```bash
+npm install -g pnpm
+```
+
+Then install dependencies:
+```bash
+pnpm install
+```
+
+Start local infrastructure:
+```bash
+docker-compose up -d
+```
+
+Start the workspace:
+```bash
+pnpm dev
+```
+
+Run only the web app:
+```bash
+cd apps/web && pnpm dev
+```
+
+Run only the mobile app:
+```bash
+cd apps/mobile && pnpm start
+```
+
 ## Notes for contributors
 
 This repository currently contains the shared monorepo foundation and app scaffolds. Domain logic, tenant middleware, APIs, and UI workflows are added in their respective folders in later phases.

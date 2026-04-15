@@ -53,7 +53,62 @@ services:
       timeout: 5s
       retries: 5
 
+  web:
+    image: node:20-bullseye
+    container_name: clinicall-web
+    working_dir: /workspace
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+      PNPM_HOME: /pnpm
+      PATH: /pnpm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/workspace
+      - pnpm_store:/pnpm
+    command: >
+      sh -lc "corepack enable && corepack prepare pnpm@9.12.3 --activate &&
+      pnpm install && pnpm --filter @clinicall/web dev"
+
+  mobile:
+    image: node:20-bullseye
+    container_name: clinicall-mobile
+    working_dir: /workspace
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      EXPO_PUBLIC_API_BASE_URL: http://localhost:8000
+      PNPM_HOME: /pnpm
+      PATH: /pnpm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    volumes:
+      - ./:/workspace
+      - pnpm_store:/pnpm
+    command: >
+      sh -lc "corepack enable && corepack prepare pnpm@9.12.3 --activate &&
+      pnpm install && pnpm --filter @clinicall/mobile start -- --web"
+
 volumes:
   postgres_data:
   redis_data:
   minio_data:
+  pnpm_store:
