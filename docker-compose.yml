@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: clinicall
       POSTGRES_DB: clinicall
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -78,7 +78,7 @@ services:
       - pnpm_store:/pnpm
     command: >
       sh -lc "corepack enable && corepack prepare pnpm@9.12.3 --activate &&
-      pnpm install && pnpm --filter @clinicall/web dev -- --port 3001"
+      pnpm install && cd apps/web && pnpm dev --port 3001"
 
   mobile:
     image: node:20-bullseye
@@ -106,7 +106,7 @@ services:
       - pnpm_store:/pnpm
     command: >
       sh -lc "corepack enable && corepack prepare pnpm@9.12.3 --activate &&
-      pnpm install && pnpm --filter @clinicall/mobile start -- --web"
+      pnpm install && cd apps/mobile && pnpm start -- --web"
 
 volumes:
   postgres_data:
