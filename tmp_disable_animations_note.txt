@@ -1,1 +1,0 @@
-Please confirm the exact UI file or component where animations should be removed, or I can inspect the frontend assets and disable common scroll-related animation code in `assets/js/app.js` and `assets/css/app.css`.
